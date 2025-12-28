@@ -91,7 +91,7 @@ SUBJECTS_DATA = [
     {'code': 'CSPROJ802', 'title': 'Internship', 'semester': 8, 'credits': 2, 'type': 'practical', 'category': 'PROJ', 'image_url': 'images/subjects/ai_data.png'},
 ]
 
-def init_database():
+def init_db():
     """Initialize database with all tables and seed data"""
     with app.app_context():
         print("Creating all database tables...")
@@ -124,4 +124,4 @@ def init_database():
             print(f"  Semester {sem}: {count} subjects")
 
 if __name__ == '__main__':
-    init_database()
+    init_db()
