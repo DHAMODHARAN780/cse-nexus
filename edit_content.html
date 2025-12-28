@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="glass-container" style="max-width: 800px; margin: 2rem auto; padding: 2.5rem; border-radius: 24px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <div>
+            <h1
+                style="margin: 0; background: var(--gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-size: 2.2rem;">
+                Edit Content</h1>
+            <p style="color: var(--text-muted); margin: 0.5rem 0 0 0;">Update material details</p>
+        </div>
+        <a href="{{ url_for('faculty.manage_documents') }}" class="btn btn-outline"
+            style="border-radius: 12px; padding: 0.6rem 1.2rem;">
+            <i class="fas fa-times"></i> Cancel
+        </a>
+    </div>
+
+    <form action="{{ url_for('faculty.edit_content', id=content.id) }}" method="POST" class="premium-form">
+        <div class="form-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+            <div class="form-group" style="grid-column: span 2;">
+                <label for="title"
+                    style="color: var(--text-muted); font-weight: 500; font-size: 0.9rem; margin-bottom: 0.5rem; display: block;">Material
+                    Title</label>
+                <input type="text" name="title" id="title" class="form-control" required value="{{ content.title }}"
+                    style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 1rem;">
+            </div>
+
+            <div class="form-group">
+                <label for="type"
+                    style="color: var(--text-muted); font-weight: 500; font-size: 0.9rem; margin-bottom: 0.5rem; display: block;">Content
+                    Type</label>
+                <select name="type" id="type" class="form-control"
+                    style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 1rem;">
+                    <option value="material" {% if content.type=='material' %}selected{% endif %}>📄 PDF / Document
+                    </option>
+                    <option value="video" {% if content.type=='video' %}selected{% endif %}>🎥 Video Lecture</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="unit"
+                    style="color: var(--text-muted); font-weight: 500; font-size: 0.9rem; margin-bottom: 0.5rem; display: block;">Unit
+                    Number</label>
+                <select name="unit" id="unit" class="form-control"
+                    style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 1rem;">
+                    {% for i in range(1, 6) %}
+                    <option value="{{ i }}" {% if content.unit==i %}selected{% endif %}>Unit {{ i }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="semester"
+                    style="color: var(--text-muted); font-weight: 500; font-size: 0.9rem; margin-bottom: 0.5rem; display: block;">Semester</label>
+                <input type="number" name="semester" id="semester" class="form-control" min="1" max="8" required
+                    value="{{ content.semester }}"
+                    style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 1rem;">
+            </div>
+
+            <div class="form-group">
+                <label for="subject"
+                    style="color: var(--text-muted); font-weight: 500; font-size: 0.9rem; margin-bottom: 0.5rem; display: block;">Subject</label>
+                <select name="subject" id="subject" class="form-control" required
+                    style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 1rem;">
+                    <option value="{{ content.subject }}">{{ content.subject }}</option>
+                </select>
+            </div>
+        </div>
+
+        <input type="hidden" name="year" id="calculated_year" value="{{ content.year }}">
+
+        <button type="submit" class="btn btn-primary"
+            style="width: 100%; padding: 1.2rem; margin-top: 2rem; border-radius: 16px; font-weight: 600;">
+            <i class="fas fa-save"></i> SAVE CHANGES
+        </button>
+    </form>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const semesterInput = document.getElementById('semester');
+    const subjectSelect = document.getElementById('subject');
+    const yearInput = document.getElementById('calculated_year');
+    const currentSubject = "{{ content.subject }}";
+
+    const updateSubjects = async () => {
+        const semester = semesterInput.value;
+        if (!semester) return;
+
+        yearInput.value = Math.ceil(semester / 2);
+
+        try {
+            const response = await fetch(`/admin/api/subjects/${semester}`);
+            const subjects = await response.json();
+
+            subjectSelect.innerHTML = '';
+            subjects.forEach(sub => {
+                const option = document.createElement('option');
+                option.value = sub.title;
+                option.textContent = `${sub.code} - ${sub.title}`;
+                if (sub.title === currentSubject) option.selected = true;
+                subjectSelect.appendChild(option);
+            });
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+    semesterInput.addEventListener('change', updateSubjects);
+    updateSubjects(); // Init
+</script>
+{% endblock %}

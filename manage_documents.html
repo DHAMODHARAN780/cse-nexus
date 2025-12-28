@@ -1,0 +1,224 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="margin-bottom: 3rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h1
+            style="background: var(--gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-size: 2.5rem;">
+            Document Repository</h1>
+        <a href="{{ url_for('faculty.dashboard') }}" class="btn btn-outline"><i class="fas fa-arrow-left"></i> Back to
+            Dashboard</a>
+    </div>
+    <p style="color: var(--text-muted);">A centralized view of all uploaded files including course materials,
+        announcements, and achievements.</p>
+</div>
+
+<!-- Quick Stats -->
+<div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-bottom: 4rem;">
+    <div class="stat-card">
+        <div class="stat-number">{{ materials.keys()|length }}</div>
+        <div class="stat-label">Semesters Active</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ timetables|length }}</div>
+        <div class="stat-label">Timetables</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ announc_docs|length + achieve_docs|length }}</div>
+        <div class="stat-label">Other Attachments</div>
+    </div>
+</div>
+
+<!-- Course Materials Grouped -->
+<div style="margin-bottom: 4rem;">
+    <h2 style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2rem;">
+        <i class="fas fa-book" style="color: var(--primary-color);"></i>
+        Course Study Materials
+    </h2>
+
+    {% for sem, subjects in materials.items()|sort %}
+    <div style="margin-bottom: 3rem;">
+        <h3
+            style="background: rgba(var(--primary-rgb), 0.1); color: var(--primary-color); padding: 0.75rem 1.5rem; border-radius: 12px; display: inline-block; margin-bottom: 1.5rem; border: 1px solid rgba(var(--primary-rgb), 0.2);">
+            Semester {{ sem }}
+        </h3>
+
+        {% for subject, units in subjects.items() %}
+        <div class="card"
+            style="margin-bottom: 2rem; background: rgba(255,255,255,0.02); border: 1px solid var(--border);">
+            <div
+                style="background: rgba(var(--primary-rgb), 0.05); padding: 1.25rem 2rem; border-bottom: 1px solid var(--border);">
+                <h4 style="margin: 0; color: #fff; font-size: 1.25rem;">{{ subject }}</h4>
+            </div>
+            <div style="padding: 1rem 2rem;">
+                {% for unit, items in units.items()|sort %}
+                <div style="margin: 1.5rem 0;">
+                    <h5
+                        style="color: var(--primary-color); border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem; margin-bottom: 1rem;">
+                        Unit {{ unit }}
+                    </h5>
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tbody>
+                            {% for m in items %}
+                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.03);">
+                                <td style="padding: 1rem 0; width: 60%;">
+                                    <div style="font-weight: 500;">{{ m.title }}</div>
+                                </td>
+                                <td
+                                    style="padding: 1rem 0; text-align: right; display: flex; gap: 0.5rem; justify-content: flex-end;">
+                                    <button
+                                        data-url="{{ url_for('static', filename=m.filepath.replace('static/', '')) }}"
+                                        data-title="{{ m.title }}" class="btn btn-primary btn-sm btn-view">
+                                        <i class="fas fa-eye"></i> View
+                                    </button>
+                                    <a href="{{ url_for('static', filename=m.filepath.replace('static/', '')) }}"
+                                        download class="btn btn-outline btn-sm">
+                                        <i class="fas fa-download"></i>
+                                    </a>
+                                    <a href="{{ url_for('faculty.edit_content', id=m.id) }}"
+                                        class="btn btn-outline btn-sm"
+                                        style="color: #eab308; border-color: #eab308; padding: 0.5rem;">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="{{ url_for('faculty.delete_content', id=m.id) }}"
+                                        class="btn btn-outline btn-sm"
+                                        style="color: #ff4d4d; border-color: #ff4d4d; padding: 0.5rem;"
+                                        onclick="return confirm('Are you sure you want to delete this resource?')">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p style="color: var(--text-muted); text-align: center; padding: 2rem;">No course materials uploaded yet.</p>
+    {% endfor %}
+</div>
+
+<!-- Timetables Grouped -->
+<div style="margin-bottom: 4rem;">
+    <h2 style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2rem;">
+        <i class="fas fa-calendar-alt" style="color: #22c55e;"></i>
+        Academic Timetables
+    </h2>
+
+    {% for year, items in timetables.items()|sort(reverse=True) %}
+    <div class="card" style="margin-bottom: 2rem; background: rgba(255,255,255,0.02); border: 1px solid var(--border);">
+        <div
+            style="background: rgba(34, 197, 94, 0.05); padding: 1.25rem 2rem; border-bottom: 1px solid var(--border);">
+            <h3 style="margin: 0; color: #fff;">Year {{ year }}</h3>
+        </div>
+        <table style="width: 100%; border-collapse: collapse;">
+            <tbody>
+                {% for t in items %}
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.03);">
+                    <td style="padding: 1.5rem 2rem; width: 60%;">
+                        <div style="font-weight: 500;">{{ t.title }}</div>
+                        <small style="color: var(--text-muted);">Semester {{ t.semester }}</small>
+                    </td>
+                    <td
+                        style="padding: 1.5rem 2rem; text-align: right; display: flex; gap: 0.5rem; justify-content: flex-end;">
+                        <button data-url="{{ url_for('static', filename=t.file_path.replace('static/', '')) }}"
+                            data-title="{{ t.title }}" class="btn btn-primary btn-sm btn-view">
+                            <i class="fas fa-eye"></i> View
+                        </button>
+                        <a href="{{ url_for('static', filename=t.file_path.replace('static/', '')) }}" download
+                            class="btn btn-outline btn-sm">
+                            <i class="fas fa-download"></i>
+                        </a>
+                        <a href="{{ url_for('faculty.edit_timetable', id=t.id) }}" class="btn btn-outline btn-sm"
+                            style="color: #eab308; border-color: #eab308; padding: 0.5rem;">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="{{ url_for('faculty.delete_timetable', id=t.id) }}" class="btn btn-outline btn-sm"
+                            style="color: #ff4d4d; border-color: #ff4d4d; padding: 0.5rem;"
+                            onclick="return confirm('Delete this timetable?')">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Announcements & Achievements -->
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+    <div>
+        <h2 style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem;">
+            <i class="fas fa-bullhorn" style="color: #eab308;"></i>
+            Announcement Files
+        </h2>
+        <div class="card" style="padding: 0;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <tbody>
+                    {% for a in announc_docs %}
+                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.03);">
+                        <td style="padding: 1.2rem 1.5rem;">
+                            <div style="font-weight: 500; font-size: 0.95rem;">{{ a.title or 'Attachment' }}</div>
+                            <small style="color: var(--text-muted);">{{ a.date.strftime('%d %b %Y') }}</small>
+                        </td>
+                        <td style="padding: 1.2rem 1.5rem; text-align: right;">
+                            <button data-url="{{ url_for('static', filename=a.file_path.replace('static/', '')) }}"
+                                data-title="{{ a.title or 'Announcement' }}" class="btn btn-primary btn-sm btn-view">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <a href="{{ url_for('faculty.delete_announcement', id=a.id) }}"
+                                class="btn btn-outline btn-sm" style="color: #ff4d4d; border-color: #ff4d4d;"
+                                onclick="return confirm('Delete?')">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div>
+        <h2 style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem;">
+            <i class="fas fa-trophy" style="color: #a855f7;"></i>
+            Achievement Files
+        </h2>
+        <div class="card" style="padding: 0;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <tbody>
+                    {% for a in achieve_docs %}
+                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.03);">
+                        <td style="padding: 1.2rem 1.5rem;">
+                            <div style="font-weight: 500; font-size: 0.95rem;">{{ a.title }}</div>
+                            <small style="color: var(--text-muted);">{{ a.date.strftime('%d %b %Y') }}</small>
+                        </td>
+                        <td style="padding: 1.2rem 1.5rem; text-align: right;">
+                            <button data-url="{{ url_for('static', filename=a.file_path.replace('static/', '')) }}"
+                                data-title="{{ a.title }}" class="btn btn-primary btn-sm btn-view">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <a href="{{ url_for('faculty.edit_achievement', id=a.id) }}" class="btn btn-outline btn-sm"
+                                style="color: #eab308; border-color: #eab308;">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="{{ url_for('faculty.delete_achievement', id=a.id) }}"
+                                class="btn btn-outline btn-sm" style="color: #ff4d4d; border-color: #ff4d4d;"
+                                onclick="return confirm('Delete?')">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

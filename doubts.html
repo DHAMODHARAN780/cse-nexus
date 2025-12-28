@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card"
+    style="max-width: 900px; margin: 0 auto; min-height: 80vh; display: flex; flex-direction: column; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(20px);">
+    <div
+        style="padding: 1.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between;">
+        <h2 style="margin: 0; font-size: 1.5rem; display: flex; align-items: center; gap: 0.75rem;">
+            <i class="fas fa-brain" style="color: var(--primary-color);"></i>
+            NEXUS AI Assistant
+        </h2>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <a href="{{ url_for('student.clear_doubts') }}" class="btn btn-outline btn-sm"
+                style="font-size: 0.75rem; padding: 0.4rem 0.8rem; border-radius: 8px; color: var(--text-muted);">
+                <i class="fas fa-trash-alt"></i> Clear Chat
+            </a>
+            <span class="badge badge-success" style="font-size: 0.7rem;">ONLINE</span>
+        </div>
+    </div>
+
+    <!-- Chat Messages -->
+    <div id="chatWindow"
+        style="flex-grow: 1; padding: 2rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1.5rem;">
+
+        {% if chat_history %}
+        {% for msg in chat_history %}
+        {% if msg.role == 'user' %}
+        <!-- User Message -->
+        <div
+            style="align-self: flex-end; max-width: 80%; background: var(--primary-color); padding: 1rem 1.5rem; border-radius: 20px 20px 0 20px; color: #fff; box-shadow: 0 4px 15px rgba(0, 210, 255, 0.2);">
+            {{ msg.content }}
+        </div>
+        {% else %}
+        <!-- AI Response -->
+        <div
+            style="align-self: flex-start; max-width: 85%; background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 20px 20px 20px 0; border: 1px solid var(--border);">
+            <div
+                style="margin-bottom: 1rem; color: var(--primary-color); font-weight: 600; display: flex; align-items: center; gap: 0.5rem;">
+                <i class="fas fa-robot"></i> AI Answer:
+            </div>
+            <div style="line-height: 1.8; color: #fff; white-space: pre-wrap;">{{ msg.content }}</div>
+
+            {% if msg.sources %}
+            <div style="margin-top: 1.5rem; border-top: 1px solid var(--border); padding-top: 1rem;">
+                <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">📚 SOURCE MATERIALS:
+                </div>
+                {% for source in msg.sources %}
+                <div
+                    style="display: flex; align-items: center; gap: 1rem; background: rgba(0,0,0,0.2); padding: 0.75rem; border-radius: 12px; margin-bottom: 0.5rem;">
+                    <i class="fas fa-file-pdf" style="color: #ff4d4d;"></i>
+                    <div style="flex-grow: 1;">
+                        <div style="font-size: 0.9rem; font-weight: 500;">{{ source.title }}</div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted);">{{ source.subject }} | Unit {{
+                            source.unit }}</div>
+                    </div>
+                    <button data-url="{{ url_for('static', filename=source.filepath.replace('static/', '')) }}"
+                        data-title="{{ source.title }}" class="btn btn-primary btn-sm btn-view"
+                        style="font-size: 0.7rem; padding: 0.3rem 0.7rem;">
+                        View
+                    </button>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% else %}
+        <!-- Welcome message if no history -->
+        <div style="text-align: center; margin: auto; opacity: 0.5;">
+            <i class="fas fa-robot" style="font-size: 4rem; color: var(--primary-color); margin-bottom: 1.5rem;"></i>
+            <h3>Hello! I'm your AI Study Buddy.</h3>
+            <p>Ask me anything about your course materials.</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Input Area -->
+    <form method="POST" style="padding: 1.5rem; border-top: 1px solid var(--border); background: rgba(0,0,0,0.2);">
+        <div style="position: relative;">
+            <input type="text" name="doubt" class="form-control"
+                style="border-radius: 30px; padding: 1rem 4rem 1rem 1.5rem; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: #fff;"
+                placeholder="Message NEXUS AI..." required>
+            <button type="submit"
+                style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; border-radius: 50%; border: none; background: var(--primary-color); color: #fff; cursor: pointer;">
+                <i class="fas fa-arrow-up"></i>
+            </button>
+        </div>
+    </form>
+</div>
+
+<!-- Document Viewer Modal -->
+<div id="viewerModal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 95vw; max-height: 95vh; border-radius: 20px;">
+        <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <button class="btn btn-outline btn-sm close-modal" style="padding: 0.3rem 0.7rem; border-radius: 8px;">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+                <div class="modal-title" id="modalTitle">Document Viewer</div>
+            </div>
+            <button class="close-modal"
+                style="font-size: 1.5rem; opacity: 0.7; background: none; border: none; color: #fff;">&times;</button>
+        </div>
+        <div class="modal-body" style="padding: 0; height: 80vh;">
+            <iframe id="viewerFrame"
+                style="width: 100%; height: 100%; border: none; border-radius: 0 0 20px 20px;"></iframe>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.onload = function () {
+        const chat = document.getElementById('chatWindow');
+        chat.scrollTop = chat.scrollHeight;
+    }
+</script>
+{% endblock %}

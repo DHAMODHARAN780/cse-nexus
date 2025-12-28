@@ -1,0 +1,31 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Flask Server",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "flask",
+            "env": {
+                "FLASK_APP": "nexus.py",
+                "FLASK_ENV": "development",
+                "FLASK_DEBUG": "1"
+            },
+            "args": [
+                "run",
+                "--no-debugger",
+                "--no-reload"
+            ],
+            "jinja": true,
+            "justMyCode": true
+        },
+        {
+            "name": "Python: nexus.py (Main)",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/nexus.py",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        }
+    ]
+}

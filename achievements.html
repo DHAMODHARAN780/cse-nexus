@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="achievements" class="achievement-section-premium" style="padding-top: 2rem;">
+    <!-- Floating Ambient Glows -->
+    <div
+        style="position: absolute; top: 0; left: 10%; width: 500px; height: 500px; background: rgba(0, 210, 255, 0.07); filter: blur(120px); border-radius: 50%; pointer-events: none;">
+    </div>
+    <div
+        style="position: absolute; top: 20%; right: 10%; width: 500px; height: 500px; background: rgba(168, 85, 247, 0.07); filter: blur(120px); border-radius: 50%; pointer-events: none;">
+    </div>
+
+    <div class="hall-of-fame-header">
+        <div class="trophy-glow">
+            <i class="fas fa-award"></i>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 1rem;">
+            <span style="background: var(--gradient); width: 80px; height: 2px; border-radius: 1px;"></span>
+            <span
+                style="text-transform: uppercase; letter-spacing: 8px; font-size: 0.9rem; font-weight: 800; color: var(--primary-color);">Legacy
+                of Excellence</span>
+            <span style="background: var(--gradient); width: 80px; height: 2px; border-radius: 1px;"></span>
+        </div>
+        <h1
+            style="font-size: 3.5rem; font-weight: 800; margin-bottom: 1rem; background: var(--gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+            CSE Wall of Fame</h1>
+        <p style="color: var(--text-muted); max-width: 700px; margin: 0 auto; font-size: 1.2rem; line-height: 1.6;">
+            A complete chronicle of the milestones, innovations, and victories that define our department.
+        </p>
+    </div>
+
+    <div style="max-width: 1400px; margin: 0 auto; padding: 0 2rem;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 3rem;">
+            {% for a in achievements %}
+            <div class="achievement-card-premium">
+                {% if loop.index <= 3 %} <div class="achievement-badge"
+                    style="background: linear-gradient(135deg, #ff9d00, #ff4c00); box-shadow: 0 0 15px rgba(255, 76, 0, 0.4);">
+                    <i class="fas fa-crown" style="margin-right: 0.25rem;"></i> TOP MILESTONE
+            </div>
+            {% endif %}
+
+            <div class="achievement-image-container" style="height: 250px;">
+                <img src="{{ a.image_url or url_for('static', filename='images/achievement_default.png') }}"
+                    alt="{{ a.title }}">
+                <div
+                    style="position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 30%, rgba(15, 23, 42, 0.95));">
+                </div>
+            </div>
+
+            <div class="achievement-content-premium">
+                <h3 style="font-size: 1.7rem;">{{ a.title }}</h3>
+                <p style="font-size: 1rem; opacity: 0.8;">{{ a.description }}</p>
+
+                <div class="achievement-footer-premium" style="margin-top: 2rem;">
+                    <div class="achievement-date-pill">
+                        <i class="far fa-calendar-alt" style="margin-right: 0.5rem; color: var(--primary-color);"></i>
+                        {{ a.date.strftime('%d %B %Y') }}
+                    </div>
+                    <button class="btn btn-primary btn-detail"
+                        style="padding: 0.75rem 1.5rem; border-radius: 50px; font-weight: 700; background: var(--gradient); border: none; box-shadow: 0 5px 20px rgba(0, 210, 255, 0.3);"
+                        data-type="achievement" data-title="{{ a.title }}" data-text="{{ a.description }}"
+                        data-date="{{ a.date.strftime('%d %b %Y') }}"
+                        data-file="{{ url_for('static', filename=a.file_path.replace('static/', '')) if a.file_path else (a.image_url if a.image_url else '') }}">
+                        READ MORE <i class="fas fa-arrow-right" style="margin-left: 0.5rem; font-size: 0.8rem;"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div
+            style="grid-column: 1/-1; text-align: center; padding: 10rem 2rem; background: rgba(255,255,255,0.02); border-radius: 40px; border: 1px dashed rgba(255,255,255,0.1);">
+            <i class="fas fa-history"
+                style="font-size: 5rem; opacity: 0.1; margin-bottom: 2rem; color: var(--primary-color);"></i>
+            <h2 style="color: var(--text-muted);">The Archives are Awaiting Greatness</h2>
+            <p style="color: var(--text-muted); font-size: 1.1rem;">History is being made every day. Come back later to
+                see it recorded.</p>
+            <a href="{{ url_for('student.dashboard') }}" class="btn btn-primary" style="margin-top: 2rem;">Return to
+                Dashboard</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+</div>
+
+<!-- Modal Structure remain unchanged but styling refined via base.html/style.css -->
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% endblock %}
