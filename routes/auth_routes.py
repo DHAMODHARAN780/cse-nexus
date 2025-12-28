@@ -72,24 +72,37 @@ def register_action():
     
     reg_no = request.form.get('reg_no')
     
-    # Validation
+    # Validation - Check for empty required fields
+    if not name or not email or not password:
+        flash('Please fill in all required fields (Name, Email, and Password).', 'danger')
+        if role == 'admin':
+            return redirect(url_for('auth.register_faculty'))
+        return redirect(url_for('auth.register'))
+    
+    # Validation - Check for registration number for students
+    if role == 'student' and not reg_no:
+        flash('Registration number is required for student accounts.', 'danger')
+        return redirect(url_for('auth.register'))
+    
+    # Validation - Check for duplicate email
     user = User.query.filter_by(email=email).first()
     if user:
         if user.status == 'blacklisted':
-            flash('This account is blacklisted and cannot be recreated.', 'danger')
+            flash('This account is blacklisted and cannot be recreated. Please contact administration.', 'danger')
         else:
-            flash('Email already registered', 'warning')
+            flash('This email is already registered! Please use a different email address or login if you already have an account.', 'warning')
         if role == 'admin':
             return redirect(url_for('auth.register_faculty'))
         return redirect(url_for('auth.register'))
 
+    # Validation - Check for duplicate registration number (students only)
     if role == 'student' and reg_no:
         existing_reg = User.query.filter_by(reg_no=reg_no).first()
         if existing_reg:
             if existing_reg.status == 'blacklisted':
-                flash('This register number is blacklisted.', 'danger')
+                flash('This registration number is blacklisted. Please contact administration.', 'danger')
             else:
-                flash('Register number already exists', 'warning')
+                flash('This registration number already exists! Please check your registration number and enter the correct one.', 'warning')
             return redirect(url_for('auth.register'))
 
     new_user = User(name=name, email=email, role=role, reg_no=reg_no)
