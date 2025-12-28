@@ -58,13 +58,7 @@ def create_app(config_class=Config):
     with app.app_context():
         db.create_all()
         
-        # TEMPORARY: Auto-initialize database with subjects on first run
-        # This will run on Render deployment and seed the database
-        try:
-            from init_production_db import init_db
-            init_db()
-        except Exception as e:
-            print(f"DB init skipped: {e}")
+
 
     return app
 

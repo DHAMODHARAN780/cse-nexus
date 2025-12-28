@@ -7,5 +7,5 @@ db = SQLAlchemy()
 login_manager = LoginManager()
 migrate = Migrate()
 mail = Mail()
-print("hii")
+
 
