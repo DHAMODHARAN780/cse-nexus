@@ -726,6 +726,24 @@ iframe.viewer-frame {
         padding: 0 1rem;
     }
 
+    /* Navbar Responsiveness */
+    .navbar {
+        padding: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .nav-links {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    .nav-links a {
+        margin-left: 0;
+        margin-bottom: 0.5rem;
+    }
+
     /* Slider Responsiveness */
     .hero-slider {
         height: 350px;
@@ -746,12 +764,42 @@ iframe.viewer-frame {
         font-size: 1rem !important;
     }
 
-    /* Grid Responsiveness */
+    /* Grid Responsiveness - Force all grids to single column */
     .stats-grid,
     .leadership-grid,
     .hall-of-fame-header+div>div {
         grid-template-columns: 1fr !important;
         gap: 1.5rem;
+    }
+
+    /* Faculty Dashboard - Force vertical stacking */
+    div[style*="grid-template-columns: 1.5fr 1fr"] {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Student Dashboard - Leadership Grid */
+    div[style*="grid-template-columns: repeat(auto-fit, minmax(350px, 1fr))"] {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Action Cards Grid */
+    div[style*="grid-template-columns: repeat(auto-fit, minmax(230px, 1fr))"] {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Stats Grid */
+    div[style*="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))"] {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Subject Cards Grid */
+    div[style*="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr))"] {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Achievement Cards Grid */
+    div[style*="grid-template-columns: repeat(auto-fit, minmax(350px, 1fr))"] {
+        grid-template-columns: 1fr !important;
     }
 
     /* Leadership Cards */
@@ -764,12 +812,25 @@ iframe.viewer-frame {
     }
 
     /* Typography Adjustments */
+    h1 {
+        font-size: 2rem !important;
+    }
+
     h2 {
         font-size: 1.8rem !important;
     }
 
+    h3 {
+        font-size: 1.3rem !important;
+    }
+
     .section-header h2 {
         font-size: 1.8rem !important;
+    }
+
+    /* Card Padding Adjustments */
+    .card {
+        padding: 1.5rem;
     }
 
     /* Modal Adjustments */
@@ -785,5 +846,64 @@ iframe.viewer-frame {
 
     .modal-header .close-modal {
         font-size: 1.2rem;
+    }
+
+    /* Table Responsiveness */
+    table {
+        font-size: 0.9rem;
+    }
+
+    td,
+    th {
+        padding: 0.75rem 0.5rem !important;
+    }
+
+    /* Button Adjustments */
+    .btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+    }
+
+    /* Slider Buttons */
+    .slider-btn {
+        width: 40px;
+        height: 40px;
+    }
+
+    .slider-btn.prev {
+        left: 10px;
+    }
+
+    .slider-btn.next {
+        right: 10px;
+    }
+}
+
+/* Extra small devices (phones in portrait, less than 576px) */
+@media (max-width: 576px) {
+    .hero-slider {
+        height: 280px;
+    }
+
+    .slide-content h1 {
+        font-size: 1.8rem !important;
+    }
+
+    .slide-content p {
+        font-size: 0.9rem !important;
+    }
+
+    h1 {
+        font-size: 1.6rem !important;
+    }
+
+    h2 {
+        font-size: 1.4rem !important;
+    }
+
+    /* Ensure all grids are single column */
+    [style*="display: grid"],
+    [style*="display:grid"] {
+        grid-template-columns: 1fr !important;
     }
 }
