@@ -32,6 +32,43 @@ def fix_db_schema():
     except Exception as e:
         return f"Error: {str(e)}"
 
+@common_bp.route('/fix-subject-images')
+def fix_subject_images():
+    try:
+        from models.subject_model import Subject
+        subjects = Subject.query.all()
+        
+        mapping = {
+            'programming.png': ['python', 'java', 'programming', 'web', 'data structures', 'algorithms', 'web technology', 'javascript', 'compiler design'],
+            'mathematics.png': ['mathematics', 'discrete', 'probability', 'calculus', 'physics', 'chemistry', 'biology', 'equations'],
+            'ai_data.png': ['artificial intelligence', 'machine learning', 'database', 'data mining', 'big data', 'intelligence'],
+            'hardware.png': ['hardware', 'microprocessor', 'digital', 'architecture', 'electronics', 'iot'],
+            'networking.png': ['networks', 'cyber security', 'cloud', 'distributed', 'security']
+        }
+        
+        updated = 0
+        for s in subjects:
+            title_lower = s.title.lower()
+            code_lower = s.code.lower()
+            
+            assigned = False
+            for img, keywords in mapping.items():
+                if any(kw in title_lower or kw in code_lower for kw in keywords):
+                    s.image_url = f'images/subjects/{img}'
+                    assigned = True
+                    break
+            
+            if not assigned:
+                # Default to programming if no specific match
+                s.image_url = 'images/subjects/programming.png'
+            
+            updated += 1
+        
+        db.session.commit()
+        return f"Success: Updated {updated} subjects with background images."
+    except Exception as e:
+        return f"Error: {str(e)}"
+
 @common_bp.route('/achievements')
 @login_required
 def achievements():
