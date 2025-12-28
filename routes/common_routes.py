@@ -8,8 +8,29 @@ from extensions import db
 
 from models.achievement_model import Achievement
 from models.timetable_model import Timetable
+from sqlalchemy import text
 
 common_bp = Blueprint('common', __name__)
+
+@common_bp.route('/fix-db-schema')
+def fix_db_schema():
+    try:
+        # Check dialect
+        engine = db.engine
+        dialect = engine.dialect.name
+        
+        if dialect == 'postgresql':
+            with engine.connect() as conn:
+                conn.execute(text('ALTER TABLE "user" ALTER COLUMN password_hash TYPE VARCHAR(256);'))
+                conn.commit()
+            return "Success: PostgreSQL password_hash column resized to 256."
+        elif dialect == 'sqlite':
+            return "SQLite detected. No ALTER needed usually, or not supported easily."
+        else:
+            return f"Unknown dialect: {dialect}"
+            
+    except Exception as e:
+        return f"Error: {str(e)}"
 
 @common_bp.route('/achievements')
 @login_required
