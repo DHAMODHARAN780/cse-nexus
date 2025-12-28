@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card" style="max-width: 700px; margin: 3rem auto; border-radius: 24px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <div>
+            <h1
+                style="margin: 0; background: var(--gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+                Post Announcement</h1>
+            <p style="color: var(--text-muted); margin-top: 0.5rem;">Broadcast news to all students</p>
+        </div>
+        <a href="{{ url_for('faculty.dashboard') }}" class="btn btn-outline"
+            style="border-radius: 12px; padding: 0.5rem 1rem;">
+            <i class="fas fa-arrow-left"></i> Back
+        </a>
+    </div>
+
+    <form action="{{ url_for('faculty.announcements') }}" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="title" style="font-weight: 500; font-size: 0.9rem; margin-bottom: 0.5rem; display: block;">Main
+                Subject (Notification Title)</label>
+            <input type="text" name="title" id="title" class="form-control" required
+                placeholder="Ex: Holiday Notice, Exam Schedule Out..."
+                style="background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 1rem;">
+        </div>
+
+        <div class="form-group">
+            <label for="text"
+                style="font-weight: 500; font-size: 0.9rem; margin-bottom: 0.5rem; display: block;">Detailed Content
+                (Elaborate View)</label>
+            <textarea name="text" id="text" class="form-control" rows="5" required
+                placeholder="Full details of the announcement..."
+                style="background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 1rem;"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="type" style="font-weight: 500; font-size: 0.9rem; margin-bottom: 0.5rem; display: block;">Select
+                Category</label>
+            <div style="position: relative;">
+                <select name="type" id="type" class="form-control"
+                    style="background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 1rem;">
+                    <option value="notice">📢 General Notice</option>
+                    <option value="exam">📝 Exam Update</option>
+                    <option value="event">🏆 Upcoming Event</option>
+                    <option value="upload">📚 New Upload</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="file"
+                style="font-weight: 500; font-size: 0.9rem; margin-bottom: 0.5rem; display: block;">Attachment (Optional
+                Image/PDF)</label>
+            <input type="file" name="file" id="file" class="form-control"
+                style="background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 0.8rem;">
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+            <button type="submit" class="btn btn-primary"
+                style="flex: 2; padding: 1.1rem; border-radius: 16px; font-weight: 600; font-size: 1.1rem; background: var(--gradient); border: none; letter-spacing: 1px; box-shadow: 0 8px 24px rgba(var(--primary-rgb), 0.3);">
+                <i class="fas fa-paper-plane"></i> POST TO BOARD
+            </button>
+            <a href="{{ url_for('faculty.dashboard') }}" class="btn btn-outline"
+                style="flex: 1; padding: 1.1rem; border-radius: 16px; display: flex; align-items: center; justify-content: center; border-color: rgba(255,255,255,0.1);">
+                CANCEL
+            </a>
+        </div>
+    </form>
+</div>
+
+{% if announcements %}
+<div class="card" style="margin-top: 2rem; border-radius: 20px;">
+    <h3>Recent Announcements</h3>
+    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <thead>
+            <tr style="text-align: left; color: var(--text-muted); border-bottom: 1px solid var(--border);">
+                <th style="padding: 1rem;">Type</th>
+                <th style="padding: 1rem;">Subject</th>
+                <th style="padding: 1rem;">Actions</th>
+                <th style="padding: 1rem;">Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for a in announcements %}
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.03);">
+                <td style="padding: 1rem;"><span class="badge badge-{{ a.type }}">{{ a.type|capitalize }}</span></td>
+                <td style="padding: 1rem;">{{ a.title or 'N/A' }}</td>
+                <td style="padding: 1rem;">
+                    <button class="btn btn-outline btn-sm btn-detail" data-title="{{ a.title or 'Announcement' }}"
+                        data-text="{{ a.text }}" data-date="{{ a.date.strftime('%d %b %Y') }}"
+                        data-file="{{ url_for('static', filename=a.file_path.replace('static/', '')) if a.file_path else '' }}"
+                        style="padding: 0.3rem 0.8rem; font-size: 0.75rem;">
+                        View
+                    </button>
+                    <a href="{{ url_for('faculty.edit_announcement', id=a.id) }}" class="btn btn-outline btn-sm"
+                        style="color: #eab308; border-color: #eab308; padding: 0.3rem 0.6rem; font-size: 0.75rem;">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="{{ url_for('faculty.delete_announcement', id=a.id) }}" class="btn btn-outline btn-sm"
+                        style="color: #ff4d4d; border-color: #ff4d4d; padding: 0.3rem 0.6rem; font-size: 0.75rem;"
+                        onclick="return confirm('Delete?')">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+                <td style="padding: 1rem; color: var(--text-muted); font-size: 0.9rem;">{{ a.date.strftime('%Y-%m-%d')
+                    }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+<!-- Detail View Modal -->
+<div id="detailModal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 800px; border-radius: 20px;">
+        <div class="modal-header">
+            <div class="modal-title" id="detailTitle">Announcement Details</div>
+            <button class="close-modal">&times;</button>
+        </div>
+        <div class="modal-body" style="padding: 2.5rem; max-height: 70vh; overflow-y: auto;">
+            <div id="detailMedia" style="margin-bottom: 2rem;"></div>
+            <div id="detailMeta"
+                style="margin-bottom: 1rem; color: var(--primary-color); font-weight: 600; font-size: 0.9rem;"></div>
+            <div id="detailText"
+                style="line-height: 1.8; color: #fff; font-size: 1.1rem; border-left: 3px solid var(--primary-color); padding-left: 1.5rem;">
+            </div>
+        </div>
+        <div class="modal-footer"
+            style="padding: 1.5rem 2.5rem; text-align: right; border-top: 1px solid var(--border);">
+            <button class="btn btn-outline close-modal">Close</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const detailModal = document.getElementById('detailModal');
+        const detailTitle = document.getElementById('detailTitle');
+        const detailText = document.getElementById('detailText');
+        const detailMeta = document.getElementById('detailMeta');
+        const detailMedia = document.getElementById('detailMedia');
+
+        document.querySelectorAll('.btn-detail').forEach(btn => {
+            btn.onclick = function () {
+                const data = btn.dataset;
+                detailTitle.innerText = data.title;
+                detailText.innerText = data.text;
+                detailMeta.innerText = data.date;
+
+                detailMedia.innerHTML = '';
+                if (data.file) {
+                    const isImage = /\.(jpg|jpeg|png|gif)$/i.test(data.file);
+                    if (isImage) {
+                        detailMedia.innerHTML = `<img src="${data.file}" style="width: 100%; height: 350px; object-fit: cover; border-radius: 12px;">`;
+                    } else {
+                        detailMedia.innerHTML = `
+                        <div style="background: rgba(255,255,255,0.05); padding: 2rem; border-radius: 12px; border: 1px dashed var(--border); text-align: center;">
+                            <i class="fas fa-file-pdf" style="font-size: 3rem; color: #ff4d4d; margin-bottom: 1rem;"></i>
+                            <div style="margin-bottom: 1.5rem;">There is a document attached to this announcement.</div>
+                            <button data-url="${data.file}" data-title="${data.title}" class="btn btn-primary btn-view">
+                                <i class="fas fa-eye"></i> View Attachment
+                            </button>
+                        </div>
+                    `;
+                    }
+                }
+                detailModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            };
+        });
+
+        detailModal.querySelectorAll('.close-modal').forEach(btn => {
+            btn.onclick = () => {
+                detailModal.classList.remove('active');
+                document.body.style.overflow = '';
+            };
+        });
+    });
+</script>
+{% endblock %}

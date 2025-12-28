@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="margin-bottom: 3rem; text-align: center;">
+    <h1
+        style="font-size: 2.5rem; margin-bottom: 0.5rem; background: var(--gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+        Upcoming Events</h1>
+    <p style="color: var(--text-muted);">Stay connected with our department's workshops, seminars, and tech fests.</p>
+</div>
+
+<div class="grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2.5rem;">
+    <!-- Featured Event -->
+    <div class="card"
+        style="padding: 0; overflow: hidden; grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; min-height: 400px; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05);">
+        <div class="dynamic-bg" data-bg="https://images.unsplash.com/photo-1540575861501-7cf05a4b125a?q=80&w=2070">
+        </div>
+        <div style="padding: 3rem; display: flex; flex-direction: column; justify-content: center;">
+            <div style="margin-bottom: 1rem;">
+                <span class="badge badge-error">FEATURED</span>
+                <span class="badge badge-info" style="margin-left: 0.5rem;">WORKSHOP</span>
+            </div>
+            <h2 style="font-size: 2rem; margin-bottom: 1rem; color: var(--primary-color);">AI & ML Workshop 2026</h2>
+            <p style="color: var(--text-muted); line-height: 1.6; margin-bottom: 2rem;">Join us for an intensive 2-day
+                workshop on Generative AI and Machine Learning. Learn from industry experts and get hands-on experience
+                with modern tools.</p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem;">
+                <div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">DATE</div>
+                    <div style="font-weight: 600; color: #fff;">15-16 Jan 2026</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">VENUE</div>
+                    <div style="font-weight: 600; color: #fff;">Main Auditorium</div>
+                </div>
+            </div>
+            <button class="btn btn-primary" style="width: fit-content; padding: 0.8rem 2rem;">Register Now</button>
+        </div>
+    </div>
+
+    <!-- Regular Events -->
+    {% set events = [
+    {'title': 'Web3 Development Seminar', 'date': '22 Jan 2026', 'type': 'Seminar', 'img':
+    'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=2000'},
+    {'title': 'Annual Debugging Contest', 'date': '05 Feb 2026', 'type': 'Competition', 'img':
+    'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070'},
+    {'title': 'Cloud Architecture Meetup', 'date': '18 Feb 2026', 'type': 'Meetup', 'img':
+    'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072'}
+    ] %}
+
+    {% for e in events %}
+    <div class="card"
+        style="padding: 0; overflow: hidden; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column;">
+        <div class="dynamic-bg" style="height: 200px;" data-bg="{{ e.img }}"></div>
+        <div style="padding: 1.5rem; flex-grow: 1;">
+            <span class="badge"
+                style="background: rgba(var(--primary-rgb), 0.1); color: var(--primary-color); margin-bottom: 0.75rem;">{{
+                e.type }}</span>
+            <h3 style="margin-bottom: 1rem;">{{ e.title }}</h3>
+            <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted); font-size: 0.9rem;">
+                <i class="far fa-calendar-alt"></i> {{ e.date }}
+            </div>
+        </div>
+        <div style="padding: 1rem 1.5rem; border-top: 1px solid var(--border);">
+            <button class="btn btn-outline" style="width: 100%;">View Details</button>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.dynamic-bg').forEach(el => {
+            const bg = el.getAttribute('data-bg');
+            if (bg) {
+                el.style.backgroundImage = `url('${bg}')`;
+                el.style.backgroundSize = 'cover';
+                el.style.backgroundPosition = 'center';
+            }
+        });
+    });
+</script>
+{% endblock %}

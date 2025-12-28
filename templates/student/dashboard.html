@@ -1,0 +1,596 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Image Slider -->
+<div class="hero-slider">
+    <div class="slide active dynamic-bg" data-bg="{{ url_for('static', filename='images/hero_college.jpg') }}">
+        <div class="slide-content"
+            style="z-index: 10; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; max-width: 650px; padding: 3rem;">
+            <h1
+                style="color: #1e90ff; font-size: 4rem; margin-bottom: 0.5rem; font-weight: 800; line-height: 1.1; background: none; -webkit-text-fill-color: initial;">
+                Welcome to CSE NEXUS</h1>
+            <p
+                style="color: #e2e8f0; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); font-size: 1.5rem; font-weight: 500; margin-top: 1rem;">
+                Empowering Innovation through Code</p>
+        </div>
+    </div>
+    <div class="slide dynamic-bg" data-bg="{{ url_for('static', filename='images/advanced_lab.png') }}">
+        <div class="slide-content"
+            style="z-index: 10; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; max-width: 650px; padding: 3rem;">
+            <h1
+                style="color: #1e90ff; font-size: 4rem; margin-bottom: 0.5rem; font-weight: 800; line-height: 1.1; background: none; -webkit-text-fill-color: initial;">
+                Advanced Labs</h1>
+            <p
+                style="color: #e2e8f0; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); font-size: 1.5rem; font-weight: 500; margin-top: 1rem;">
+                State of the art infrastructure</p>
+        </div>
+    </div>
+    <!-- Navigation Buttons -->
+    <button class="slider-btn prev" onclick="moveSlide(-1)"><i class="fas fa-chevron-left"></i></button>
+    <button class="slider-btn next" onclick="moveSlide(1)"><i class="fas fa-chevron-right"></i></button>
+
+    <div class="slide dynamic-bg" data-bg="{{ url_for('static', filename='images/achievement_slider.jpg') }}">
+        <div class="slide-content"
+            style="z-index: 10; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; max-width: 650px; padding: 3rem;">
+            <h1
+                style="color: #1e90ff; font-size: 4rem; margin-bottom: 0.5rem; font-weight: 800; line-height: 1.1; background: none; -webkit-text-fill-color: initial;">
+                Recent Achievements</h1>
+            <p
+                style="color: #e2e8f0; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); font-size: 1.5rem; font-weight: 500; margin-top: 1rem;">
+                Our
+                department continues to excel in research and innovation.</p>
+            <a href="#achievements" class="btn btn-primary"
+                style="margin-top: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.3); font-weight: 700; padding: 0.8rem 2rem; font-size: 1rem;">View
+                Highlights</a>
+        </div>
+    </div>
+    <!-- Special Announcement Slide -->
+    <div class="slide dynamic-bg" style="background-color: #1a1a1a;"
+        data-bg="https://images.unsplash.com/photo-1544383835-bda2bc66a55d?q=80&w=2021">
+        <div class="slide-content"
+            style="z-index: 10; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; max-width: 650px; padding: 3rem;">
+            <h1
+                style="color: #1e90ff; font-size: 4rem; margin-bottom: 0.5rem; font-weight: 800; line-height: 1.1; background: none; -webkit-text-fill-color: initial;">
+                Stay Notified</h1>
+            <p
+                style="color: #e2e8f0; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); font-size: 1.5rem; font-weight: 500; margin-top: 1rem;">
+                Never miss an important departmental update.</p>
+            <a href="#announcements" class="btn btn-primary"
+                style="margin-top: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.3); font-weight: 700; padding: 0.8rem 2rem; font-size: 1rem;">See
+                Announcements</a>
+        </div>
+    </div>
+</div>
+
+
+<!-- Leadership Section (Horizontal Side-by-Side) -->
+<div class="leadership-section" style="margin: 6rem 0; position: relative;">
+    <div class="section-header" style="text-align: center; margin-bottom: 3rem;">
+        <h2
+            style="font-size: 2.2rem; color: #1e90ff; text-shadow: 0 4px 15px rgba(30, 144, 255, 0.3); display: inline-block; font-weight: 800;">
+            Our Leadership</h2>
+        <p style="color: var(--text-muted); margin-top: 0.5rem; font-size: 1rem;">Guidance and Excellence from
+            the
+            Top</p>
+    </div>
+
+    <div class="leadership-grid"
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 4rem; max-width: 1000px; margin: 0 auto; padding: 0 1rem;">
+
+        <!-- Principal Card -->
+        <div class="leadership-card glass-card"
+            style="border-radius: 24px; overflow: hidden; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(15px); transition: transform 0.3s ease;">
+            <div style="height: 400px; position: relative; overflow: hidden;">
+                <img src="{{ url_for('static', filename='images/principal.jpg') }}" alt="Principal"
+                    style="width: 100%; height: 100%; object-fit: cover; object-position: top;">
+                <div
+                    style="position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 60%, rgba(15, 23, 42, 0.95));">
+                </div>
+            </div>
+            <div style="padding: 2rem; text-align: center; position: relative; margin-top: -80px; z-index: 2;">
+                <div
+                    style="background: var(--gradient); width: fit-content; margin: 0 auto 0.75rem; padding: 0.5rem 1.5rem; border-radius: 50px; font-weight: 700; color: #fff; font-size: 0.85rem; box-shadow: 0 5px 15px rgba(0, 210, 255, 0.3);">
+                    PRINCIPAL
+                </div>
+                <h3 style="font-size: 1.6rem; margin: 0; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">
+                    Dr. S. GURULINGHAM </h3>
+                <p style="color: var(--primary-color); font-weight: 600; font-size: 1rem; margin-top: 0.25rem;">
+                    ACET</p>
+            </div>
+        </div>
+
+        <!-- HOD Card -->
+        <div class="leadership-card glass-card"
+            style="border-radius: 24px; overflow: hidden; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(15px); transition: transform 0.3s ease;">
+            <div style="height: 400px; position: relative; overflow: hidden;">
+                <img src="{{ url_for('static', filename='images/hod_cse.jpg') }}" alt="HOD CSE"
+                    style="width: 100%; height: 100%; object-fit: cover; object-position: top;">
+                <div
+                    style="position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 60%, rgba(15, 23, 42, 0.95));">
+                </div>
+            </div>
+            <div style="padding: 2rem; text-align: center; position: relative; margin-top: -80px; z-index: 2;">
+                <div
+                    style="background: var(--gradient); width: fit-content; margin: 0 auto 0.75rem; padding: 0.5rem 1.5rem; border-radius: 50px; font-weight: 700; color: #fff; font-size: 0.85rem; box-shadow: 0 5px 15px rgba(0, 210, 255, 0.3);">
+                    HOD - CSE
+                </div>
+                <h3 style="font-size: 1.6rem; margin: 0; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">
+                    Dr. KANNAGI@VASANTHALAGU</h3>
+                <p style="color: var(--primary-color); font-weight: 600; font-size: 1rem; margin-top: 0.25rem;">
+                    Department Head</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="section-header"
+    style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2rem;">
+    <h2 style="color: #1e90ff; text-shadow: 0 4px 15px rgba(30, 144, 255, 0.3); font-weight: 800;">My Subjects (Year {{
+        current_user.year }} - Sem {{ current_user.semester }})</h2>
+</div>
+
+<div class="stats-grid">
+    {% for subject in subjects %}
+    <a href="{{ url_for('student.view_subject', subject=subject.title) }}" class="subject-card-link"
+        style="text-decoration: none;">
+        <div class="card subject-card dynamic-bg"
+            data-bg="{{ url_for('static', filename=subject.image_url) if subject.image_url else 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2070' }}"
+            style="border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; text-align: center; height: 100%; display: flex; flex-direction: column; justify-content: space-between; align-items: center; min-height: 250px; padding: 2rem; position: relative; overflow: hidden; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);">
+            <!-- Overlay for legibility -->
+            <div
+                style="position: absolute; inset: 0; background: linear-gradient(rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.7)); pointer-events: none;">
+            </div>
+            <div style="margin-bottom: 1rem; position: relative; z-index: 2;">
+                <span
+                    style="background: rgba(0, 210, 255, 0.2); color: var(--primary-color); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; backdrop-filter: blur(4px);">
+                    {{ subject.code }}
+                </span>
+            </div>
+            <div
+                style="flex-grow: 1; display: flex; align-items: center; margin-bottom: 1.5rem; position: relative; z-index: 2;">
+                <h3
+                    style="font-size: 1.3rem; line-height: 1.4; font-weight: 700; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.5);">
+                    {{ subject.title }}</h3>
+            </div>
+            <div style="width: 100%; position: relative; z-index: 2;">
+                <span class="btn btn-primary"
+                    style="width: 100%; font-size: 0.9rem; background: var(--gradient); border: none;">Access
+                    Materials</span>
+            </div>
+
+            <!-- Glow effect on hover -->
+            <div class="card-glow"
+                style="position: absolute; bottom: 0; left: 0; width: 100%; height: 5px; background: var(--gradient); opacity: 0.5; transition: height 0.3s ease;">
+            </div>
+        </div>
+    </a>
+    {% else %}
+    <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
+        <i class="fas fa-calendar-alt" style="font-size: 3rem; color: var(--text-muted); margin-bottom: 1rem;"></i>
+        <p style="color: var(--text-muted); font-size: 1.1rem;">No subjects found for your current semester.</p>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem;">Please check back later or contact
+            your department.</p>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- ===========================
+     NEW SECTIONS
+     =========================== -->
+
+<div id="announcements" style="margin-top: 4rem;">
+    <div class="card" style="padding: 0; overflow: hidden; position: relative; border-radius: 24px;">
+        <div class="dynamic-bg" style="position: absolute; inset: 0; opacity: 0.3;"
+            data-bg="https://images.unsplash.com/photo-1504384308090-c54be3853247?q=80&w=2070">
+        </div>
+        <div style="position: relative; z-index: 1; padding: 2rem;">
+            <h2 style="margin-bottom: 2rem; display: flex; align-items: center; gap: 1rem;">
+                <i class="fas fa-bullhorn" style="color: var(--primary-color);"></i>
+                Latest Announcements
+            </h2>
+            <div class="card"
+                style="padding: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05);">
+                {% for a in announcements %}
+                <div class="announcement-item"
+                    style="background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 1.5rem; border-radius: 16px; margin-bottom: 1rem; transition: transform 0.3s;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+                        <span class="badge badge-{{ a.type }}"
+                            style="font-size: 0.75rem; padding: 0.3rem 0.8rem; border-radius: 20px;">{{
+                            a.type|capitalize }}</span>
+                        <span style="color: var(--text-muted); font-size: 0.85rem;">{{ a.date.strftime('%d %b')
+                            }}</span>
+                    </div>
+                    <p style="margin: 0; line-height: 1.5; color: #fff; font-weight: 500;">
+                        {% if a.poster.role == 'admin' %}<span style="color: #ff9d00;">New: </span>{% endif %}
+                        {{ a.title or a.text|truncate(80) }}
+                    </p>
+                    <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
+                        <button class="btn btn-primary btn-sm btn-detail" data-type="announcement"
+                            data-title="{{ a.title or a.type|capitalize }}" data-text="{{ a.text }}"
+                            data-date="{{ a.date.strftime('%d %b %Y') }}"
+                            data-file="{{ url_for('static', filename=a.file_path.replace('static/', '')) if a.file_path else '' }}"
+                            style="padding: 0.4rem 1rem; font-size: 0.8rem; border-radius: 8px;">
+                            Read More
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- Timetable Section -->
+    <div id="timetable" style="margin-top: 4rem;">
+        <div class="card premium-timetable-session"
+            style="padding: 0; border-radius: 30px; background: #000; position: relative; overflow: hidden; border: 1px solid rgba(0, 210, 255, 0.3); box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
+
+            <!-- Dynamic Background Image - Fixed url() syntax for linter -->
+            <div class="timetable-hero-bg dynamic-bg"
+                data-bg="{{ url_for('static', filename='images/timetable_premium_bg.png') }}"
+                style="position: absolute; inset: 0; opacity: 0.6; filter: brightness(0.4) contrast(1.2);">
+            </div>
+            <!-- ... entries ... -->
+            <!-- Note: Rest of content is similar, but fixing the broken structure below -->
+
+            <div style="position: relative; z-index: 2; padding: 3rem;">
+                <!-- Content ... -->
+                <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem;">
+                    <div>
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
+                            <span
+                                style="background: var(--gradient); width: 40px; height: 4px; border-radius: 2px;"></span>
+                            <span
+                                style="text-transform: uppercase; letter-spacing: 4px; font-size: 0.8rem; font-weight: 700; color: var(--primary-color);">Academic
+                                Session</span>
+                        </div>
+                        <h2
+                            style="font-size: 2.5rem; margin: 0; font-weight: 800; color: #1e90ff; text-shadow: 0 4px 15px rgba(30, 144, 255, 0.3);">
+                            Academic Timetable
+                        </h2>
+                    </div>
+                    {% if timetables %}
+                    <div style="text-align: right;">
+                        <span
+                            style="display: block; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.5rem;">Status:
+                            <span style="color: #22c55e;">● Published</span></span>
+                        <span style="color: #fff; font-weight: 600;">Year {{ current_user.year }} | Semester {{
+                            current_user.semester }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+
+                {% if timetables %}
+                <div style="display: flex; flex-direction: column; gap: 2rem;">
+                    {% for timetable in timetables %}
+                    <div class="glass-session-card"
+                        style="background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 2.5rem; display: flex; align-items: center; gap: 3rem; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+
+                        <div
+                            style="width: 100px; height: 100px; background: rgba(0, 210, 255, 0.1); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--primary-color); border: 1px solid rgba(0, 210, 255, 0.2); flex-shrink: 0;">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+
+                        <div style="flex-grow: 1;">
+                            <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem; color: #fff;">{{ timetable.title }}
+                            </h3>
+                            <p style="color: var(--text-muted); margin: 0;">Access your weekly schedule for
+                                Section/Group: {{ timetable.title }}.</p>
+                        </div>
+
+                        <div style="display: flex; flex-direction: column; gap: 0.75rem; min-width: 200px;">
+                            <button
+                                data-url="{{ url_for('static', filename=timetable.file_path.replace('static/', '')) }}"
+                                data-title="{{ timetable.title }}" class="btn btn-primary btn-view"
+                                style="width: 100%; padding: 0.9rem; border-radius: 12px; font-weight: 700; background: var(--gradient); border: none; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                                <i class="fas fa-expand"></i> VIEW FULL SCREEN
+                            </button>
+                            <a href="{{ url_for('static', filename=timetable.file_path.replace('static/', '')) }}"
+                                download class="btn btn-outline"
+                                style="width: 100%; padding: 0.9rem; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 0.5rem; border-color: rgba(255,255,255,0.2);">
+                                <i class="fas fa-download"></i> DOWNLOAD PDF
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div
+                    style="background: rgba(0,0,0,0.4); backdrop-filter: blur(10px); border-radius: 24px; padding: 5rem; text-align: center; border: 1px dashed rgba(255,255,255,0.1);">
+                    <div style="margin-bottom: 1.5rem; opacity: 0.2;">
+                        <i class="fas fa-calendar-times" style="font-size: 4rem;"></i>
+                    </div>
+                    <h3 style="color: var(--text-muted); margin-bottom: 0.5rem;">Schedule Pending</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">No timetable has been published yet for your
+                        current semester.</p>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Bottom Glow -->
+            <div
+                style="position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: var(--gradient); filter: blur(5px);">
+            </div>
+        </div>
+    </div>
+
+    <!-- Hall of Fame Section (Premium Achievement Session) -->
+    <div id="achievements" class="achievement-section-premium" style="margin-top: 4rem; position: relative;">
+        <!-- Floating Ambient Glows -->
+        <div
+            style="position: absolute; top: -100px; left: 10%; width: 400px; height: 400px; background: rgba(0, 210, 255, 0.05); filter: blur(100px); border-radius: 50%; pointer-events: none;">
+        </div>
+        <div
+            style="position: absolute; bottom: -100px; right: 10%; width: 400px; height: 400px; background: rgba(168, 85, 247, 0.05); filter: blur(100px); border-radius: 50%; pointer-events: none;">
+        </div>
+
+        <div class="hall-of-fame-header" style="text-align: center; margin-bottom: 3rem;">
+            <div class="trophy-glow"
+                style="font-size: 3rem; color: gold; margin-bottom: 1rem; filter: drop-shadow(0 0 10px gold);">
+                <i class="fas fa-trophy"></i>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 0.5rem;">
+                <span style="background: var(--gradient); width: 60px; height: 2px; border-radius: 1px;"></span>
+                <span
+                    style="text-transform: uppercase; letter-spacing: 6px; font-size: 0.85rem; font-weight: 800; color: var(--primary-color);">Celebrating
+                    Excellence</span>
+                <span style="background: var(--gradient); width: 60px; height: 2px; border-radius: 1px;"></span>
+            </div>
+            <h2
+                style="font-size: 2.5rem; color: #1e90ff; background: none; -webkit-text-fill-color: #1e90ff; text-shadow: 0 4px 15px rgba(30, 144, 255, 0.3); font-weight: 800;">
+                Department Hall of Fame</h2>
+            <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto; font-size: 1.1rem; line-height: 1.6;">
+                Honoring the outstanding milestones, innovations, and victories of our CSE community.
+            </p>
+        </div>
+
+        <div style="max-width: 1400px; margin: 0 auto; padding: 0 2rem;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 3rem;">
+                {% for a in achievements %}
+                <div class="achievement-card-premium"
+                    style="background: rgba(255,255,255,0.02); border-radius: 24px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05);">
+
+
+                    <div class="achievement-image-container"
+                        style="height: 250px; overflow: hidden; position: relative;">
+                        <img src="{{ a.image_url or url_for('static', filename='images/achievement_default.png') }}"
+                            alt="{{ a.title }}" style="width: 100%; height: 100%; object-fit: cover;">
+                        <div
+                            style="position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 40%, rgba(15, 23, 42, 0.9));">
+                        </div>
+                    </div>
+
+                    <div class="achievement-content-premium" style="padding: 1.5rem;">
+                        <h3 style="margin-bottom: 0.5rem;">{{ a.title }}</h3>
+                        <p
+                            style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; margin-bottom: 1.5rem;">
+                            {{ a.description|truncate(120) }}</p>
+
+                        <div class="achievement-footer-premium"
+                            style="display: flex; justify-content: space-between; align-items: center;">
+                            <div class="achievement-date-pill" style="font-size: 0.8rem; color: var(--text-muted);">
+                                <i class="far fa-calendar-alt" style="margin-right: 0.5rem;"></i> {{ a.date.strftime('%d
+                                %b %Y') }}
+                            </div>
+                            <button class="btn btn-primary btn-detail"
+                                style="padding: 0.6rem 1.2rem; border-radius: 50px; font-size: 0.85rem; font-weight: 700; background: var(--gradient); border: none; box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);"
+                                data-type="achievement" data-title="{{ a.title }}" data-text="{{ a.description }}"
+                                data-date="{{ a.date.strftime('%d %b %Y') }}"
+                                data-file="{{ url_for('static', filename=a.file_path.replace('static/', '')) if a.file_path else (a.image_url if a.image_url else '') }}">
+                                VIEW STORY <i class="fas fa-chevron-right"
+                                    style="margin-left: 0.4rem; font-size: 0.7rem;"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div
+                    style="grid-column: 1/-1; text-align: center; padding: 5rem; background: rgba(255,255,255,0.02); border-radius: 30px; border: 1px dashed rgba(255,255,255,0.1);">
+                    <i class="fas fa-award"
+                        style="font-size: 4rem; opacity: 0.1; margin-bottom: 2rem; color: var(--primary-color);"></i>
+                    <h3 style="color: var(--text-muted);">The Hall is Currently Quiet</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">New achievements will be showcased here
+                        soon.</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div style="text-align: center; margin-top: 5rem;">
+                <a href="{{ url_for('common.achievements') }}" class="btn btn-outline"
+                    style="padding: 1rem 3rem; border-radius: 50px; font-weight: 700; border-color: rgba(255,255,255,0.1); color: var(--text-muted); letter-spacing: 1px;">
+                    EXPLORE ARCHIVES <i class="fas fa-external-link-alt"
+                        style="margin-left: 0.75rem; font-size: 0.8rem;"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div> <!-- End of content block -->
+
+<!-- Modals -->
+<div id="detailModal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 700px; border-radius: 24px; padding: 0; overflow: hidden;">
+        <div style="background: var(--gradient); padding: 2rem; position: relative;">
+            <button class="close-modal"
+                style="position: absolute; top: 1rem; right: 1.5rem; color: #fff; font-size: 1.5rem; background: none; border: none; cursor: pointer;">&times;</button>
+            <button class="close-modal"
+                style="position: absolute; top: 2rem; left: 1.5rem; color: #fff; font-size: 1rem; background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; font-weight: 600;">
+                <i class="fas fa-arrow-left"></i> BACK
+            </button>
+            <div style="margin-top: 2rem;">
+                <h2 id="detailTitle" style="margin: 0; color: #fff;">Title</h2>
+                <p id="detailMeta" style="margin: 0.5rem 0 0 0; color: rgba(255,255,255,0.8); font-size: 0.9rem;">Date
+                </p>
+            </div>
+        </div>
+        <div style="padding: 2rem; max-height: 60vh; overflow-y: auto;">
+            <p id="detailText" style="line-height: 1.6; color: #fff; white-space: pre-wrap;"></p>
+            <div id="detailMedia" style="margin-top: 1.5rem;"></div>
+        </div>
+        <div class="modal-footer"
+            style="padding: 1.5rem 2rem; border-top: 1px solid var(--border); display: flex; justify-content: flex-end;">
+            <button class="btn btn-primary close-modal">Close</button>
+        </div>
+    </div>
+</div>
+
+<div id="viewerModal" class="modal-overlay">
+    <div class="modal-content"
+        style="width: 90%; max-width: 1200px; height: 90vh; border-radius: 24px; padding: 0; overflow: hidden;">
+        <div
+            style="background: #1a1a1a; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border);">
+            <button class="close-modal"
+                style="color: #fff; font-size: 0.9rem; background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; font-weight: 600; margin-right: 1rem;">
+                <i class="fas fa-arrow-left"></i> BACK
+            </button>
+            <h3 id="viewerTitle" style="margin: 0; font-size: 1rem; flex-grow: 1;">Document Viewer</h3>
+            <button class="close-modal"
+                style="color: #fff; font-size: 1.5rem; background: none; border: none; cursor: pointer;">&times;</button>
+        </div>
+        <div style="height: calc(90vh - 60px);">
+            <iframe id="viewerFrame" style="width: 100%; height: 100%; border: none;"></iframe>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Dynamic BG
+        document.querySelectorAll('.dynamic-bg').forEach(el => {
+            const bg = el.getAttribute('data-bg');
+            if (bg) {
+                el.style.backgroundImage = `url('${bg}')`;
+                el.style.backgroundSize = 'cover';
+                el.style.backgroundPosition = 'center';
+            }
+        });
+
+        // Detail Modal Logic
+        const detailModal = document.getElementById('detailModal');
+        const detailTitle = document.getElementById('detailTitle');
+        const detailText = document.getElementById('detailText');
+        const detailMeta = document.getElementById('detailMeta');
+        const detailMedia = document.getElementById('detailMedia');
+
+        document.querySelectorAll('.btn-detail').forEach(btn => {
+            btn.onclick = function () {
+                const data = btn.dataset;
+                detailTitle.innerText = data.title;
+                detailText.innerText = data.text;
+                detailMeta.innerText = data.date;
+
+                detailMedia.innerHTML = '';
+                if (data.file) {
+                    const isImage = /\.(jpg|jpeg|png|gif)$/i.test(data.file);
+                    if (isImage) {
+                        detailMedia.innerHTML = `<img src="${data.file}" style="max-width: 100%; border-radius: 12px; border: 1px solid var(--border);">`;
+                    } else {
+                        detailMedia.innerHTML = `
+                        <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 12px; display: flex; align-items: center; justify-content: space-between;">
+                            <span><i class="fas fa-file-pdf"></i> Attached Document</span>
+                            <button data-url="${data.file}" data-title="${data.title}" class="btn btn-primary btn-view">View Document</button>
+                        </div>
+                    `;
+                        // Re-bind view buttons for dynamically added content
+                        bindViewButtons();
+                    }
+                }
+                detailModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            };
+        });
+
+        function bindViewButtons() {
+            const viewerModal = document.getElementById('viewerModal');
+            const viewerFrame = document.getElementById('viewerFrame');
+            const viewerTitle = document.getElementById('viewerTitle');
+
+            document.querySelectorAll('.btn-view').forEach(btn => {
+                btn.onclick = function () {
+                    const url = btn.dataset.url;
+                    const title = btn.dataset.title;
+                    viewerTitle.innerText = title;
+                    viewerFrame.src = url;
+                    viewerModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            });
+        }
+        bindViewButtons();
+
+        // Close logic for all modals
+        document.querySelectorAll('.modal-overlay .close-modal').forEach(btn => {
+            btn.onclick = () => {
+                const modal = btn.closest('.modal-overlay');
+                modal.classList.remove('active');
+                if (modal.id === 'viewerModal') {
+                    document.getElementById('viewerFrame').src = '';
+                }
+                document.body.style.overflow = '';
+            };
+        });
+
+        // Close on overlay click
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+            modal.onclick = function (e) {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                    if (modal.id === 'viewerModal') {
+                        document.getElementById('viewerFrame').src = '';
+                    }
+                    document.body.style.overflow = '';
+                }
+            };
+        });
+    });
+</script>
+
+<style>
+    .leadership-card:hover {
+        transform: translateY(-15px) rotateX(5deg);
+        box-shadow: 0 20px 40px rgba(0, 210, 255, 0.2);
+    }
+
+    .leadership-card:hover img {
+        transform: scale(1.1);
+    }
+
+    .glass-card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(5px);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s;
+    }
+
+    .modal-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .modal-content {
+        background: #0f172a;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% endblock %}

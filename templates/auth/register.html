@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block body_class %}auth-page{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 500px; margin: 4rem auto;">
+    <h2 style="text-align: center; margin-bottom: 2rem;">Student Registration</h2>
+    <form action="{{ url_for('auth.register_action') }}" method="POST">
+        <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" name="name" id="name" class="form-control" placeholder="Your full name" required>
+        </div>
+        <div class="form-group">
+            <label for="reg_no">Register Number</label>
+            <input type="text" name="reg_no" id="reg_no" class="form-control" placeholder="Ex: 211521104001" required>
+        </div>
+        <div class="form-group" style="margin-top: 1rem;">
+            <label for="email"> Email</label>
+            <input type="email" name="email" id="email" class="form-control" placeholder="yourname@gmail.com" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <div style="position: relative;">
+                <input type="password" name="password" id="password" class="form-control"
+                    placeholder="Create a secure password" required>
+                <i class="fas fa-eye" id="togglePassword"
+                    style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); cursor: pointer; color: var(--primary-color);"></i>
+            </div>
+        </div>
+        <input type="hidden" name="role" value="student">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+                <label for="year">Year</label>
+                <select name="year" id="year" class="form-control">
+                    <option value="1">1st Year</option>
+                    <option value="2">2nd Year</option>
+                    <option value="3">3rd Year</option>
+                    <option value="4">4th Year</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="semester">Semester</label>
+                <input type="number" name="semester" id="semester" class="form-control" min="1" max="8" required>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Register</button>
+        <p style="margin-top: 1.5rem; text-align: center; color: var(--text-muted);">
+            Already have an account? <a href="{{ url_for('auth.login') }}"
+                style="color: var(--primary-color);">Login</a>
+        </p>
+        <p style="text-align: center; margin-top: 0.5rem;">
+            <a href="{{ url_for('auth.register_faculty') }}" style="font-size: 0.9rem; color: var(--text-muted);">Are
+                you a faculty member? Register here</a>
+        </p>
+    </form>
+</div>
+
+<script>
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#password');
+    const semesterInput = document.querySelector('#semester');
+    const yearSelect = document.querySelector('#year');
+
+    togglePassword.addEventListener('click', function (e) {
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.classList.toggle('fa-eye-slash');
+    });
+
+    // Auto-calculate year from semester
+    semesterInput.addEventListener('input', function () {
+        const sem = parseInt(this.value);
+        if (sem >= 1 && sem <= 8) {
+            const year = Math.ceil(sem / 2);
+            yearSelect.value = year;
+        }
+    });
+
+    // Disable year selection to enforce consistency, but make it look active
+    yearSelect.style.pointerEvents = 'none';
+    yearSelect.style.backgroundColor = 'rgba(255,255,255,0.05)';
+    yearSelect.style.opacity = '0.8';
+</script>
+{% endblock %}

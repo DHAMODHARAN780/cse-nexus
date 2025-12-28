@@ -1,0 +1,20 @@
+# CSE Nexus - Python Dependencies
+
+# Core Framework
+Flask==3.0.0
+Flask-Login==0.6.3
+Flask-SQLAlchemy==3.1.1
+Flask-Mail==0.9.1
+psycopg2-binary==2.9.9
+
+# Security
+Werkzeug==3.0.1
+
+# AI & PDF Processing
+google-generativeai==0.3.2
+PyPDF2==3.0.1
+
+# Utilities
+python-dotenv==1.0.0
+itsdangerous==2.1.2
+gunicorn==21.2.0

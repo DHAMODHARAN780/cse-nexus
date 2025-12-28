@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block body_class %}auth-page{% endblock %}
+
+{% block content %}
+<div class="card"
+    style="max-width: 500px; margin: 4rem auto; position: relative; overflow: hidden; border-radius: 24px;">
+    <!-- Glass Background Accent -->
+    <div
+        style="position: absolute; top: -100px; right: -100px; width: 200px; height: 200px; background: var(--primary-color); filter: blur(100px); opacity: 0.2; pointer-events: none;">
+    </div>
+
+    <div style="position: relative; z-index: 1;">
+        <h2
+            style="text-align: center; margin-bottom: 0.5rem; background: var(--gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-size: 2rem;">
+            Faculty Portal</h2>
+        <p style="text-align: center; color: var(--text-muted); margin-bottom: 2.5rem; letter-spacing: 0.5px;">Create
+            your educator account</p>
+
+        <form action="{{ url_for('auth.register_action') }}" method="POST">
+            <div class="form-group">
+                <label for="name" style="font-weight: 500; font-size: 0.9rem; color: var(--text-muted);">Full
+                    Name</label>
+                <div style="position: relative;">
+                    <i class="fas fa-user-circle"
+                        style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--primary-color);"></i>
+                    <input type="text" name="name" id="name" class="form-control" placeholder="e.g. Dr. John Doe"
+                        required style="padding-left: 3rem;">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="reg_no" style="font-weight: 500; font-size: 0.9rem; color: var(--text-muted);">Faculty ID /
+                    Employee Code</label>
+                <div style="position: relative;">
+                    <i class="fas fa-id-card"
+                        style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--primary-color);"></i>
+                    <input type="text" name="reg_no" id="reg_no" class="form-control" placeholder="e.g. FAC123456"
+                        required style="padding-left: 3rem;">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email" style="font-weight: 500; font-size: 0.9rem; color: var(--text-muted);">Academic
+                    Email</label>
+                <div style="position: relative;">
+                    <i class="fas fa-envelope"
+                        style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--primary-color);"></i>
+                    <input type="email" name="email" id="email" class="form-control" placeholder="email@college.edu"
+                        required style="padding-left: 3rem;">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="access_code" style="font-weight: 500; font-size: 0.9rem; color: var(--text-muted);">Security
+                    Access Code</label>
+                <div style="position: relative;">
+                    <i class="fas fa-key"
+                        style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--primary-color);"></i>
+                    <input type="password" name="access_code" id="access_code" class="form-control"
+                        placeholder="Provided by Administration" required style="padding-left: 3rem;">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password"
+                    style="font-weight: 500; font-size: 0.9rem; color: var(--text-muted);">Password</label>
+                <div style="position: relative;">
+                    <i class="fas fa-lock"
+                        style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--primary-color);"></i>
+                    <input type="password" name="password" id="password" class="form-control" placeholder="••••••••"
+                        required style="padding-left: 3rem;">
+                    <i class="fas fa-eye" id="togglePassword"
+                        style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); cursor: pointer; color: var(--primary-color);"></i>
+                </div>
+            </div>
+
+            <input type="hidden" name="role" value="admin">
+
+            <div
+                style="background: rgba(0, 210, 255, 0.05); padding: 1.25rem; border-radius: 12px; margin-bottom: 2rem; border-left: 4px solid var(--primary-color); display: flex; gap: 1rem; align-items: start;">
+                <i class="fas fa-shield-alt" style="color: var(--primary-color); margin-top: 2px;"></i>
+                <small style="color: var(--text-muted); line-height: 1.4;">
+                    Faculty accounts have administrative privileges to manage course materials, post announcements, and
+                    track student progress.
+                </small>
+            </div>
+
+            <button type="submit" class="btn btn-primary"
+                style="width: 100%; padding: 1rem; font-weight: 600; letter-spacing: 1px; border-radius: 12px; background: var(--gradient); border: none;">
+                JOIN FACULTY NETWORK
+            </button>
+
+            <div style="margin-top: 2rem; text-align: center;">
+                <p style="color: var(--text-muted); font-size: 0.9rem;">
+                    Already have an account? <a href="{{ url_for('auth.login') }}"
+                        style="color: var(--primary-color); font-weight: 600;">Login</a>
+                </p>
+                <p style="margin-top: 0.75rem;">
+                    <a href="{{ url_for('auth.register') }}" class="btn btn-outline"
+                        style="font-size: 0.8rem; border-color: rgba(255,255,255,0.1); padding: 0.4rem 1rem;">
+                        <i class="fas fa-user-graduate"></i> Are you a student?
+                    </a>
+                </p>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#password');
+
+    togglePassword.addEventListener('click', function (e) {
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.classList.toggle('fa-eye-slash');
+    });
+</script>
+{% endblock %}

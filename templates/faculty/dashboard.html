@@ -1,0 +1,285 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- System Overview Header -->
+<div class="card"
+    style="padding: 3rem; margin-bottom: 3rem; position: relative; overflow: hidden; border-radius: 24px;">
+    <div class="dashboard-bg-overlay" data-bg="{{ url_for('static', filename='images/admin_bg.png') }}"
+        style="position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0.35;">
+    </div>
+    <div style="position: relative; z-index: 1;">
+        <h1
+            style="font-size: 3.5rem; margin-bottom: 0.5rem; background: var(--gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; letter-spacing: -1px;">
+            Nexus Control Hub</h1>
+        <p style="color: var(--text-muted); font-size: 1.2rem; max-width: 600px;">Orchestrate your department's digital
+            ecosystem. Manage resources, track activity, and celebrate excellence.</p>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="grid"
+    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.5rem; margin-bottom: 4rem;">
+    <a href="{{ url_for('faculty.upload') }}" class="card action-card-premium">
+        <div class="action-icon" style="background: rgba(0, 210, 255, 0.1); color: var(--primary-color);">
+            <i class="fas fa-cloud-upload-alt"></i>
+        </div>
+        <div class="action-info">
+            <h3>Course Content</h3>
+            <p>Upload materials & videos</p>
+        </div>
+    </a>
+    <a href="{{ url_for('faculty.announcements') }}" class="card action-card-premium">
+        <div class="action-icon" style="background: rgba(239, 68, 68, 0.1); color: #ef4444;">
+            <i class="fas fa-bullhorn"></i>
+        </div>
+        <div class="action-info">
+            <h3>Announcements</h3>
+            <p>Broadcast news & alerts</p>
+        </div>
+    </a>
+    <a href="{{ url_for('faculty.manage_documents') }}" class="card action-card-premium">
+        <div class="action-icon" style="background: rgba(34, 197, 94, 0.1); color: #22c55e;">
+            <i class="fas fa-folder-open"></i>
+        </div>
+        <div class="action-info">
+            <h3>Document Hub</h3>
+            <p>Manage all system files</p>
+        </div>
+    </a>
+    <a href="{{ url_for('faculty.manage_achievements') }}" class="card action-card-premium">
+        <div class="action-icon" style="background: rgba(168, 85, 247, 0.1); color: #a855f7;">
+            <i class="fas fa-trophy"></i>
+        </div>
+        <div class="action-info">
+            <h3>Achievements</h3>
+            <p>Student highlights</p>
+        </div>
+    </a>
+    <a href="{{ url_for('faculty.manage_timetable') }}" class="card action-card-premium">
+        <div class="action-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
+            <i class="fas fa-calendar-alt"></i>
+        </div>
+        <div class="action-info">
+            <h3>Timetables</h3>
+            <p>Academic schedules</p>
+        </div>
+    </a>
+    <a href="{{ url_for('faculty.manage_students') }}" class="card action-card-premium">
+        <div class="action-icon" style="background: rgba(0, 210, 255, 0.1); color: var(--primary-color);">
+            <i class="fas fa-user-graduate"></i>
+        </div>
+        <div class="action-info">
+            <h3>Student Directory</h3>
+            <p>View register numbers</p>
+        </div>
+    </a>
+</div>
+
+<style>
+    .action-card-premium {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 2rem !important;
+        text-decoration: none;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        background: rgba(30, 41, 59, 0.7);
+        backdrop-filter: blur(10px);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .action-card-premium:hover {
+        transform: translateY(-5px);
+        background: rgba(15, 23, 42, 0.8);
+        border-color: var(--primary-color);
+    }
+
+    .action-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .action-info h3 {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+        color: #fff;
+    }
+
+    .action-info p {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+    }
+</style>
+
+<!-- Stats Dashboard -->
+<div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-bottom: 3rem;">
+    <div class="card stat-card-premium">
+        <div class="stat-icon-small"><i class="fas fa-users"></i></div>
+        <div class="stat-info">
+            <div class="stat-number-small">{{ student_count }}</div>
+            <div class="stat-label-small">Students</div>
+        </div>
+    </div>
+    <div class="card stat-card-premium">
+        <div class="stat-icon-small"><i class="fas fa-file-alt"></i></div>
+        <div class="stat-info">
+            <div class="stat-number-small">{{ content_count }}</div>
+            <div class="stat-label-small">Materials</div>
+        </div>
+    </div>
+    <div class="card stat-card-premium">
+        <div class="stat-icon-small"><i class="fas fa-bullhorn"></i></div>
+        <div class="stat-info">
+            <div class="stat-number-small">{{ announcement_count }}</div>
+            <div class="stat-label-small">News</div>
+        </div>
+    </div>
+    <div class="card stat-card-premium">
+        <div class="stat-icon-small"><i class="fas fa-medal"></i></div>
+        <div class="stat-info">
+            <div class="stat-number-small">{{ achievement_count }}</div>
+            <div class="stat-label-small">Wins</div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .stat-card-premium {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        padding: 1.5rem !important;
+        margin-bottom: 0;
+        background: rgba(30, 41, 59, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .stat-icon-small {
+        width: 45px;
+        height: 45px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.05);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        color: var(--primary-color);
+    }
+
+    .stat-number-small {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+        line-height: 1;
+    }
+
+    .stat-label-small {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-top: 0.25rem;
+    }
+</style>
+
+<div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 2rem; margin-bottom: 4rem;">
+    <!-- Recent Uploads -->
+    <div class="card" style="padding: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h3 style="margin:0;">Recent Uploads</h3>
+            <i class="fas fa-history" style="color: var(--text-muted);"></i>
+        </div>
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <tbody>
+                    {% for content in recent_uploads %}
+                    <tr style="border-bottom: 1px solid var(--border);">
+                        <td style="padding: 1.2rem 0;">
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <div
+                                    style="width: 40px; height: 40px; border-radius: 10px; background: rgba(0, 210, 255, 0.1); display: flex; align-items: center; justify-content: center;">
+                                    {% if content.type == 'video' %}
+                                    <i class="fas fa-play" style="color: var(--primary-color);"></i>
+                                    {% else %}
+                                    <i class="fas fa-file-alt" style="color: var(--primary-color);"></i>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <div style="font-weight: 500;">{{ content.title }}</div>
+                                    <small style="color: var(--text-muted);">{{ content.subject }} (Unit {{ content.unit
+                                        }})</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="text-align: right; color: var(--text-muted); font-size: 0.85rem;">
+                            {{ content.upload_date.strftime('%d %b, %H:%M') }}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td style="padding: 2rem; text-align: center; color: var(--text-muted);" colspan="2">No uploads
+                            found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Student Activity -->
+    <div class="card" style="padding: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h3 style="margin:0;">Student Activity</h3>
+            <i class="fas fa-user-check" style="color: var(--text-muted);"></i>
+        </div>
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <tbody>
+                    {% for log in recent_logins %}
+                    <tr style="border-bottom: 1px solid var(--border);">
+                        <td style="padding: 1.2rem 0;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                <div style="width: 8px; height: 8px; border-radius: 50%; background: #22c55e;"></div>
+                                <div style="display: flex; flex-direction: column;">
+                                    <span style="font-weight: 500;">{{ log.user.name }}</span>
+                                    <small style="color: var(--text-muted); font-size: 0.75rem;">{{ log.user.reg_no or
+                                        'No Reg No' }}</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="text-align: right; color: var(--text-muted); font-size: 0.85rem;">
+                            {{ log.login_time.strftime('%H:%M %d/%m') }}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="2" style="padding: 2rem; text-align: center; color: var(--text-muted);">No recent
+                            logins.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('[data-bg]').forEach(el => {
+            el.style.backgroundImage = `url('${el.dataset.bg}')`;
+        });
+    });
+</script>
+{% endblock %}
+```

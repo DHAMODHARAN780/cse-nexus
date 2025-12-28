@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="ACET CSE NEXUS - The Ultimate Student Learning Portal for Computer Science Engineering. Access notes, timetables, and announcements.">
+    <meta name="keywords"
+        content="ACET CSE NEXUS, CSE NEXUS, ACET, Computer Science Engineering, Student Portal, Learning Management System">
+    <meta name="author" content="ACET CSE Department">
+    <title>ACET CSE NEXUS | Learning Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body class="{% block body_class %}{% endblock %}">
+
+    <nav class="navbar">
+        <a href="/" class="logo"
+            style="color: #1e90ff; background: none; -webkit-text-fill-color: #1e90ff; text-shadow: 0 4px 15px rgba(30, 144, 255, 0.3);">CSE
+            NEXUS</a>
+        <div class="nav-links">
+            {% if current_user.is_authenticated %}
+            {% if current_user.role == 'admin' %}
+            <a href="{{ url_for('faculty.dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('faculty.upload') }}">Upload</a>
+            <a href="{{ url_for('faculty.settings') }}">Settings</a>
+            {% else %}
+            <a href="{{ url_for('student.dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('student.curriculum') }}">Curriculum</a>
+            <a href="{{ url_for('student.doubts') }}">Ask Doubts</a>
+            {% endif %}
+            <a href="{{ url_for('common.profile') }}">Profile</a>
+            <a href="{{ url_for('auth.logout') }}">Logout</a>
+            {% else %}
+            <a href="{{ url_for('auth.login') }}">Login</a>
+            <a href="{{ url_for('auth.register') }}">Register</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    {% if running_updates %}
+    <div class="updates-bar-premium"
+        style="margin-top: 70px; position: sticky; top: 70px; z-index: 1001; overflow: hidden; box-shadow: 0 4px 20px rgba(0, 210, 255, 0.3); border-bottom: 2px solid rgba(0, 210, 255, 0.5);">
+        <div
+            style="position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,210,255,0.2), rgba(168,85,247,0.2), rgba(0,210,255,0.2)); background-size: 200% 100%; animation: gradientShift 6s ease infinite;">
+        </div>
+        <div
+            style="position: absolute; inset: 0; backdrop-filter: blur(15px); background: rgba(15, 23, 42, 0.85); border-top: 1.5px solid rgba(0,210,255,0.5); border-bottom: 1.5px solid rgba(0,210,255,0.5);">
+        </div>
+
+        <div class="marquee-premium"
+            style="position: relative; z-index: 1; display: flex; animation: scroll 30s linear infinite; gap: 3rem;">
+            {% for update in running_updates %}
+            <div class="marquee-item-premium"
+                style="display: flex; align-items: center; gap: 1rem; white-space: nowrap; padding: 0.75rem 2.5rem; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); border-radius: 50px; border: 2px solid rgba(0, 210, 255, 0.8); box-shadow: 0 0 20px rgba(0, 210, 255, 0.4), inset 0 0 10px rgba(255,255,255,0.1);">
+                <div
+                    style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #00d2ff, #a855f7); display: flex; align-items: center; justify-content: center; animation: pulse 1.2s ease-in-out infinite; box-shadow: 0 0 15px rgba(0, 210, 255, 0.8);">
+                    <i class="fas fa-bolt" style="font-size: 0.9rem; color: #fff;"></i>
+                </div>
+                {% if update.poster and update.poster.role == 'admin' %}
+                <span
+                    style="background: linear-gradient(135deg, #ff9d00, #ff4c00); color: #fff; padding: 0.3rem 0.9rem; border-radius: 20px; font-size: 0.75rem; font-weight: 900; letter-spacing: 1px; box-shadow: 0 0 15px rgba(255, 76, 0, 0.6); text-transform: uppercase;">NEW</span>
+                {% endif %}
+                <span
+                    style="color: #fff; font-weight: 800; font-size: 1.05rem; text-shadow: 0 0 12px rgba(0, 210, 255, 0.8), 0 0 2px #000;">{{
+                    update.title or update.text }}</span>
+                <span
+                    style="background: #00d2ff; color: #000; padding: 0.3rem 0.9rem; border-radius: 12px; font-size: 0.75rem; font-weight: 900; border: 1px solid #fff; text-transform: uppercase; box-shadow: 0 0 10px rgba(0,210,255,0.5);">{{
+                    update.type }}</span>
+            </div>
+            {% endfor %}
+            <!-- Duplicate for seamless infinite loop -->
+            {% for update in running_updates %}
+            <div class="marquee-item-premium"
+                style="display: flex; align-items: center; gap: 1rem; white-space: nowrap; padding: 0.75rem 2.5rem; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); border-radius: 50px; border: 2px solid rgba(0, 210, 255, 0.8); box-shadow: 0 0 20px rgba(0, 210, 255, 0.4), inset 0 0 10px rgba(255,255,255,0.1);">
+                <div
+                    style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #00d2ff, #a855f7); display: flex; align-items: center; justify-content: center; animation: pulse 1.2s ease-in-out infinite; box-shadow: 0 0 15px rgba(0, 210, 255, 0.8);">
+                    <i class="fas fa-bolt" style="font-size: 0.9rem; color: #fff;"></i>
+                </div>
+                {% if update.poster and update.poster.role == 'admin' %}
+                <span
+                    style="background: linear-gradient(135deg, #ff9d00, #ff4c00); color: #fff; padding: 0.3rem 0.9rem; border-radius: 20px; font-size: 0.75rem; font-weight: 900; letter-spacing: 1px; box-shadow: 0 0 15px rgba(255, 76, 0, 0.6); text-transform: uppercase;">NEW</span>
+                {% endif %}
+                <span
+                    style="color: #fff; font-weight: 800; font-size: 1.05rem; text-shadow: 0 0 12px rgba(0, 210, 255, 0.8), 0 0 2px #000;">{{
+                    update.title or update.text }}</span>
+                <span
+                    style="background: #00d2ff; color: #000; padding: 0.3rem 0.9rem; border-radius: 12px; font-size: 0.75rem; font-weight: 900; border: 1px solid #fff; text-transform: uppercase; box-shadow: 0 0 10px rgba(0,210,255,0.5);">{{
+                    update.type }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <style>
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 210, 255, 0.8), 0 0 20px rgba(0, 210, 255, 0.4);
+            }
+
+            50% {
+                box-shadow: 0 0 0 10px rgba(0, 210, 255, 0), 0 0 30px rgba(0, 210, 255, 0.6);
+            }
+        }
+
+        .updates-bar-premium {
+            padding: 0.75rem 0;
+            box-shadow: 0 4px 20px rgba(0, 210, 255, 0.15);
+        }
+    </style>
+    {% endif %}
+
+    <div class="container" {% if not running_updates %}style="margin-top: 80px;" {% endif %}>
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Detail View Modal -->
+    <div id="detailModal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 700px; border-radius: 20px;">
+            <div class="modal-header">
+                <div class="modal-title" id="detailTitle">Notification Detail</div>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body" style="padding: 2rem;">
+                <div id="detailMeta" style="margin-bottom: 1rem; color: var(--text-muted); font-size: 0.9rem;"></div>
+                <div id="detailText" style="line-height: 1.6; margin-bottom: 2rem; font-size: 1.1rem; color: #fff;">
+                </div>
+                <div id="detailMedia" style="margin-top: 1rem;"></div>
+            </div>
+            <div class="modal-footer"
+                style="padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border);">
+                <button class="btn btn-outline close-modal" style="display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </button>
+                <button class="btn btn-primary close-modal">Got it</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Document Viewer Modal -->
+    <div id="viewerModal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 95vw; max-height: 95vh; border-radius: 20px;">
+            <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <button class="btn btn-outline btn-sm close-modal"
+                        style="padding: 0.3rem 0.7rem; border-radius: 8px;">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                    <div class="modal-title" id="modalTitle">Document Viewer</div>
+                </div>
+                <button class="close-modal" style="font-size: 1.5rem; opacity: 0.7;">&times;</button>
+            </div>
+            <div class="modal-body" style="padding: 0; height: 80vh;">
+                <iframe id="viewerFrame"
+                    style="width: 100%; height: 100%; border: none; border-radius: 0 0 20px 20px;"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>
