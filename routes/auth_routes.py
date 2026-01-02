@@ -190,7 +190,12 @@ def forgot_password():
                 db.session.commit()
                 
                 # Try sending email, catch errors to avoid 500
-                success = send_otp_email(user, otp)
+                # Using a safe wrapper to prevent timeout-induced worker crashes
+                success = False
+                try:
+                    success = send_otp_email(user, otp)
+                except Exception as email_err:
+                    print(f"Direct email error: {email_err}")
                 
                 from flask import session
                 session['reset_email'] = email

@@ -58,13 +58,6 @@ def create_app(config_class=Config):
     # Create tables within context
     with app.app_context():
         db.create_all()
-        
-        # TEMPORARY: Run schema update for production
-        try:
-            from update_user_schema import update_user_schema
-            update_user_schema()
-        except Exception as e:
-            print("User schema update skipped:", e)
 
 
     return app

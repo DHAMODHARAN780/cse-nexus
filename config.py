@@ -11,7 +11,13 @@ class Config:
     
     SQLALCHEMY_DATABASE_URI = database_url or 'sqlite:///database.db?check_same_thread=False'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    UPLOAD_FOLDER = os.path.join(os.getcwd(), 'static', 'uploads')
+    
+    # Render Free Tier fix for file uploads
+    if os.environ.get('RENDER'):
+        UPLOAD_FOLDER = '/tmp/uploads'
+    else:
+        UPLOAD_FOLDER = os.path.join(os.getcwd(), 'static', 'uploads')
+    
     MAX_CONTENT_LENGTH = 100 * 1024 * 1024  # 100MB max upload size
     
     # Mail settings

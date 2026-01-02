@@ -14,7 +14,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.Text)
     role = db.Column(db.String(20), nullable=False) # 'student', 'admin', 'main_admin'
-    designation = db.Column(db.String(100), nullable=True) # 'HOD', 'Principal', etc.
+    designation = db.Column(db.String(50), nullable=True) # 'HOD', 'Principal', etc.
     
     # Student specific
     reg_no = db.Column(db.String(30), unique=True, nullable=True)
