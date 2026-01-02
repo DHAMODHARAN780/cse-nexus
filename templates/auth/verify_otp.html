@@ -8,7 +8,20 @@
         style="text-align: center; margin-bottom: 0.5rem; background: var(--gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
         Verify OTP</h2>
     <p style="text-align: center; color: var(--text-muted); margin-bottom: 2rem;">A 6-digit code has been sent to
-        <strong>{{ email }}</strong>.</p>
+        <strong>{{ email }}</strong>.
+    </p>
+
+    {% if session.get('dev_otp') %}
+    <div
+        style="background: rgba(255, 157, 0, 0.1); border: 2px dashed #ff9d00; padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; text-align: center;">
+        <span
+            style="display: block; font-size: 0.8rem; color: #ff9d00; font-weight: 800; margin-bottom: 0.5rem; text-transform: uppercase;">Developer
+            Mode OTP</span>
+        <h3 style="font-size: 2.5rem; letter-spacing: 0.5rem; margin: 0; color: #fff;">{{ session.get('dev_otp') }}</h3>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem;">Email sending is not configured on
+            Render yet. Use this code to proceed.</p>
+    </div>
+    {% endif %}
 
     <form method="POST">
         <div class="form-group">

@@ -22,7 +22,7 @@
             <a href="{{ url_for('student.view_subject', subject=subject.title) }}"
                 style="text-decoration: none; color: inherit; display: block;">
                 <div class="card subject-card"
-                    style="background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.95)), url('{{ url_for('static', filename=subject.image_url) }}'); background-size: cover; background-position: center; border: 1px solid rgba(255,255,255,0.1); padding: 1.5rem; margin-bottom: 0; min-height: 200px; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; transition: all 0.4s ease;">
+                    style="background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.95)), url('{{ get_file_url(subject.image_url) }}'); background-size: cover; background-position: center; border: 1px solid rgba(255,255,255,0.1); padding: 1.5rem; margin-bottom: 0; min-height: 200px; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; transition: all 0.4s ease;">
                     <div
                         style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; position: relative; z-index: 2;">
                         <span

@@ -201,9 +201,11 @@ def forgot_password():
                 session['reset_email'] = email
                 
                 if success:
-                    flash('Success! A 6-digit verification code is on its way.', 'info')
+                    flash('Success! A 6-digit verification code is on its way to your email.', 'info')
                 else:
-                    flash('Account found! (Developer Mode) Your OTP is displayed in a message above.', 'warning')
+                    # Make it very obvious for the user on Render
+                    session['dev_otp'] = otp
+                    flash('Account found! Since email sending is not configured, please use the code below.', 'warning')
                 
                 return redirect(url_for('auth.verify_otp'))
             except Exception as e:
@@ -295,6 +297,7 @@ def reset_password():
         
         session.pop('reset_email', None)
         session.pop('otp_verified', None)
+        session.pop('dev_otp', None)
         
         flash('Your password has been updated! You are now able to log in', 'success')
         return redirect(url_for('auth.login'))

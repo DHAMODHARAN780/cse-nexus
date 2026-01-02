@@ -66,13 +66,11 @@
                                 </td>
                                 <td
                                     style="padding: 1rem 0; text-align: right; display: flex; gap: 0.5rem; justify-content: flex-end;">
-                                    <button
-                                        data-url="{{ url_for('static', filename=m.filepath.replace('static/', '')) }}"
-                                        data-title="{{ m.title }}" class="btn btn-primary btn-sm btn-view">
+                                    <button data-url="{{ get_file_url(m.filepath) }}" data-title="{{ m.title }}"
+                                        class="btn btn-primary btn-sm btn-view">
                                         <i class="fas fa-eye"></i> View
                                     </button>
-                                    <a href="{{ url_for('static', filename=m.filepath.replace('static/', '')) }}"
-                                        download class="btn btn-outline btn-sm">
+                                    <a href="{{ get_file_url(m.filepath) }}" download class="btn btn-outline btn-sm">
                                         <i class="fas fa-download"></i>
                                     </a>
                                     <a href="{{ url_for('faculty.edit_content', id=m.id) }}"
@@ -125,12 +123,11 @@
                     </td>
                     <td
                         style="padding: 1.5rem 2rem; text-align: right; display: flex; gap: 0.5rem; justify-content: flex-end;">
-                        <button data-url="{{ url_for('static', filename=t.file_path.replace('static/', '')) }}"
-                            data-title="{{ t.title }}" class="btn btn-primary btn-sm btn-view">
+                        <button data-url="{{ get_file_url(t.file_path) }}" data-title="{{ t.title }}"
+                            class="btn btn-primary btn-sm btn-view">
                             <i class="fas fa-eye"></i> View
                         </button>
-                        <a href="{{ url_for('static', filename=t.file_path.replace('static/', '')) }}" download
-                            class="btn btn-outline btn-sm">
+                        <a href="{{ get_file_url(t.file_path) }}" download class="btn btn-outline btn-sm">
                             <i class="fas fa-download"></i>
                         </a>
                         <a href="{{ url_for('faculty.edit_timetable', id=t.id) }}" class="btn btn-outline btn-sm"
@@ -168,7 +165,7 @@
                             <small style="color: var(--text-muted);">{{ a.date.strftime('%d %b %Y') }}</small>
                         </td>
                         <td style="padding: 1.2rem 1.5rem; text-align: right;">
-                            <button data-url="{{ url_for('static', filename=a.file_path.replace('static/', '')) }}"
+                            <button data-url="{{ get_file_url(a.file_path) }}"
                                 data-title="{{ a.title or 'Announcement' }}" class="btn btn-primary btn-sm btn-view">
                                 <i class="fas fa-eye"></i>
                             </button>
@@ -200,8 +197,8 @@
                             <small style="color: var(--text-muted);">{{ a.date.strftime('%d %b %Y') }}</small>
                         </td>
                         <td style="padding: 1.2rem 1.5rem; text-align: right;">
-                            <button data-url="{{ url_for('static', filename=a.file_path.replace('static/', '')) }}"
-                                data-title="{{ a.title }}" class="btn btn-primary btn-sm btn-view">
+                            <button data-url="{{ get_file_url(a.file_path) }}" data-title="{{ a.title }}"
+                                class="btn btn-primary btn-sm btn-view">
                                 <i class="fas fa-eye"></i>
                             </button>
                             <a href="{{ url_for('faculty.edit_achievement', id=a.id) }}" class="btn btn-outline btn-sm"

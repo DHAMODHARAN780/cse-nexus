@@ -51,9 +51,10 @@ def create_app(config_class=Config):
     @app.context_processor
     def inject_global_vars():
         from models.announcement_model import Announcement
+        from utils.helpers import get_file_url
         # Running updates for the marquee
         updates = Announcement.query.order_by(Announcement.date.desc()).limit(5).all()
-        return dict(running_updates=updates)
+        return dict(running_updates=updates, get_file_url=get_file_url)
 
     # Create tables within context
     with app.app_context():

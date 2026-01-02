@@ -88,8 +88,7 @@
                 <td style="padding: 1rem;">
                     <button class="btn btn-outline btn-sm btn-detail" data-title="{{ a.title or 'Announcement' }}"
                         data-text="{{ a.text }}" data-date="{{ a.date.strftime('%d %b %Y') }}"
-                        data-file="{{ url_for('static', filename=a.file_path.replace('static/', '')) if a.file_path else '' }}"
-                        style="padding: 0.3rem 0.8rem; font-size: 0.75rem;">
+                        data-file="{{ get_file_url(a.file_path) }}" style="padding: 0.3rem 0.8rem; font-size: 0.75rem;">
                         View
                     </button>
                     <a href="{{ url_for('faculty.edit_announcement', id=a.id) }}" class="btn btn-outline btn-sm"

@@ -40,7 +40,7 @@
             {% endif %}
 
             <div class="achievement-image-container" style="height: 250px;">
-                <img src="{{ url_for('static', filename=a.image_url.replace('static/', '')) if a.image_url else url_for('static', filename='images/achievement_default.png') }}"
+                <img src="{{ get_file_url(a.image_url) if a.image_url else url_for('static', filename='images/achievement_default.png') }}"
                     alt="{{ a.title }}">
                 <div
                     style="position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 30%, rgba(15, 23, 42, 0.95));">
@@ -60,7 +60,7 @@
                         style="padding: 0.75rem 1.5rem; border-radius: 50px; font-weight: 700; background: var(--gradient); border: none; box-shadow: 0 5px 20px rgba(0, 210, 255, 0.3);"
                         data-type="achievement" data-title="{{ a.title }}" data-text="{{ a.description }}"
                         data-date="{{ a.date.strftime('%d %b %Y') }}"
-                        data-file="{{ url_for('static', filename=a.file_path.replace('static/', '')) if a.file_path else (url_for('static', filename=a.image_url.replace('static/', '')) if a.image_url else '') }}">
+                        data-file="{{ get_file_url(a.file_path) if a.file_path else get_file_url(a.image_url) }}">
                         READ MORE <i class="fas fa-arrow-right" style="margin-left: 0.5rem; font-size: 0.8rem;"></i>
                     </button>
                 </div>

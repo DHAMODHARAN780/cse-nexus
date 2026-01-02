@@ -2,15 +2,20 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, send_from_directory, current_app
 from flask_login import login_required, current_user
 from extensions import db
+import os
 
 from models.achievement_model import Achievement
 from models.timetable_model import Timetable
 from sqlalchemy import text
 
 common_bp = Blueprint('common', __name__)
+
+@common_bp.route('/uploads/<path:filename>')
+def uploaded_file(filename):
+    return send_from_directory(current_app.config['UPLOAD_FOLDER'], filename)
 
 @common_bp.route('/fix-db-schema')
 def fix_db_schema():
