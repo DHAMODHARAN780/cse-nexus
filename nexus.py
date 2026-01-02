@@ -58,6 +58,13 @@ def create_app(config_class=Config):
     # Create tables within context
     with app.app_context():
         db.create_all()
+        
+        # TEMPORARY: Full schema audit for all production tables
+        try:
+            from update_production_schema import update_production_schema
+            update_production_schema()
+        except Exception as e:
+            print("Production schema update skipped:", e)
 
 
     return app
