@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="margin-bottom: 3rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h1
+            style="background: var(--gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-size: 2.5rem;">
+            Master Control Panel
+        </h1>
+        <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline"><i class="fas fa-arrow-left"></i>
+            Dashboard</a>
+    </div>
+    <p style="color: var(--text-muted);">Manage high-level security codes for the entire CSE Nexus ecosystem.</p>
+</div>
+
+<div class="grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem;">
+    <!-- Faculty Security Card -->
+    <div class="card" style="padding: 2.5rem; border-radius: 24px; border: 1px solid rgba(0, 210, 255, 0.2);">
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; color: var(--primary-color);">
+            <i class="fas fa-user-tie" style="font-size: 2rem;"></i>
+            <h2 style="margin: 0;">Faculty Access</h2>
+        </div>
+
+        <form method="POST">
+            <div class="form-group" style="margin-bottom: 2rem;">
+                <label
+                    style="display: block; margin-bottom: 0.75rem; color: var(--text-muted); font-weight: 600; font-size: 0.8rem; text-transform: uppercase;">
+                    Current Faculty Access Code
+                </label>
+                <div style="position: relative;">
+                    <i class="fas fa-key"
+                        style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--primary-color);"></i>
+                    <input type="text" name="access_code" value="{{ faculty_code }}" class="form-control"
+                        style="padding-left: 3rem; font-family: monospace; font-size: 1.2rem; font-weight: 700;">
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem; line-height: 1.5;">
+                    This code is required for anyone trying to register as a Faculty member.
+                    Share this only with authorized department staff.
+                </p>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Update Faculty Code</button>
+        </form>
+    </div>
+
+    <!-- Main Admin Security Card -->
+    <div class="card" style="padding: 2.5rem; border-radius: 24px; border: 1px solid rgba(168, 85, 247, 0.2);">
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; color: #a855f7;">
+            <i class="fas fa-user-shield" style="font-size: 2rem;"></i>
+            <h2 style="margin: 0;">Main Admin Access</h2>
+        </div>
+
+        <form method="POST">
+            <div class="form-group" style="margin-bottom: 2rem;">
+                <label
+                    style="display: block; margin-bottom: 0.75rem; color: var(--text-muted); font-weight: 600; font-size: 0.8rem; text-transform: uppercase;">
+                    Master Registration Key
+                </label>
+                <div style="position: relative;">
+                    <i class="fas fa-crown"
+                        style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: #a855f7;"></i>
+                    <input type="text" name="main_admin_code" value="{{ main_admin_code }}" class="form-control"
+                        style="padding-left: 3rem; font-family: monospace; font-size: 1.2rem; font-weight: 700; border-color: rgba(168, 85, 247, 0.3);">
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem; line-height: 1.5;">
+                    This is the **Master Key** required to register an account with the `main_admin` role.
+                    **NEVER** share this code publicly.
+                </p>
+            </div>
+            <button type="submit" class="btn btn-primary"
+                style="width: 100%; background: linear-gradient(135deg, #a855f7, #6b21a8); border: none;">Update Master
+                Key</button>
+        </form>
+    </div>
+
+    <!-- Registration Link Info -->
+    <div class="card"
+        style="grid-column: 1 / -1; padding: 2rem; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05);">
+        <div style="display: flex; align-items: center; gap: 1.5rem;">
+            <div
+                style="width: 50px; height: 50px; border-radius: 12px; background: rgba(var(--primary-rgb), 0.1); color: var(--primary-color); display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+                <i class="fas fa-link"></i>
+            </div>
+            <div style="flex: 1;">
+                <h3 style="margin: 0; margin-bottom: 0.25rem;">Main Admin Registration Path</h3>
+                <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">
+                    To register a new Main Admin, use the following URL:
+                    <code
+                        style="color: var(--primary-color); background: rgba(0,0,0,0.5); padding: 0.2rem 0.6rem; border-radius: 4px; margin-left: 0.5rem;">/register_main_admin</code>
+                </p>
+            </div>
+            <a href="{{ url_for('auth.register_main_admin') }}" class="btn btn-outline btn-sm">Visit Page</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -48,9 +48,15 @@
             Already have an account? <a href="{{ url_for('auth.login') }}"
                 style="color: var(--primary-color);">Login</a>
         </p>
-        <p style="text-align: center; margin-top: 0.5rem;">
-            <a href="{{ url_for('auth.register_faculty') }}" style="font-size: 0.9rem; color: var(--text-muted);">Are
-                you a faculty member? Register here</a>
+        <p style="text-align: center; margin-top: 0.5rem; display: flex; flex-direction: column; gap: 0.5rem;">
+            <a href="{{ url_for('auth.register_faculty') }}"
+                style="font-size: 0.9rem; color: var(--text-muted); display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                <i class="fas fa-chalkboard-teacher"></i> Faculty member? Register here
+            </a>
+            <a href="{{ url_for('auth.register_main_admin') }}"
+                style="font-size: 0.85rem; color: rgba(168, 85, 247, 0.8); display: flex; align-items: center; justify-content: center; gap: 0.5rem; text-decoration: none; font-weight: 500;">
+                <i class="fas fa-crown"></i> HOD or Principal? Admin Portal
+            </a>
         </p>
     </form>
 </div>

@@ -39,12 +39,13 @@ def create_app(config_class=Config):
     from routes.faculty_routes import faculty_bp
     from routes.student_routes import student_bp
     from routes.common_routes import common_bp
-    # from routes.admin_routes import admin_bp # Merged into faculty/auth as per plan
+    from routes.admin_routes import admin_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(faculty_bp)
     app.register_blueprint(student_bp)
     app.register_blueprint(common_bp)
+    app.register_blueprint(admin_bp)
     
     # Context processor to inject global variables into templates
     @app.context_processor

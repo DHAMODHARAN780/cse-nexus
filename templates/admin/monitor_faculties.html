@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="margin-bottom: 3rem; display: flex; justify-content: space-between; align-items: flex-end;">
+    <div>
+        <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline"
+            style="margin-bottom: 1.5rem; display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; padding: 0.5rem 1rem; border-radius: 10px;">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+        <h1
+            style="background: var(--gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-size: 2.5rem; margin: 0;">
+            Faculty Monitoring</h1>
+        <p style="color: var(--text-muted);">Review and manage department faculty accounts.</p>
+    </div>
+    <div class="badge"
+        style="background: rgba(var(--primary-rgb), 0.1); color: var(--primary-color); padding: 0.5rem 1rem; border-radius: 12px; font-weight: 600;">
+        {{ faculties|length }} Registered
+    </div>
+</div>
+
+<div class="grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem;">
+    {% for faculty in faculties %}
+    <div class="card faculty-card" style="padding: 0; overflow: hidden; position: relative;">
+        <!-- Status Indicator -->
+        <div style="position: absolute; top: 1.5rem; right: 1.5rem;">
+            <span class="badge badge-{{ 'success' if faculty.status == 'active' else 'error' }}"
+                style="font-size: 0.75rem; padding: 0.3rem 0.8rem; border-radius: 20px;">
+                {{ faculty.status|capitalize }}
+            </span>
+        </div>
+
+        <div style="padding: 2rem;">
+            <div style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.5rem;">
+                <div
+                    style="width: 70px; height: 70px; border-radius: 20px; background: var(--gradient); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 2rem; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+                    {{ faculty.name[0]|upper }}
+                </div>
+                <div>
+                    <h3 style="margin: 0;">{{ faculty.name }}</h3>
+                    <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">{{ faculty.email }}</p>
+                </div>
+            </div>
+
+            <div
+                style="display: flex; flex-direction: column; gap: 0.75rem; background: rgba(0,0,0,0.2); padding: 1.25rem; border-radius: 16px;">
+                <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+                    <span style="color: var(--text-muted);">Account Created</span>
+                    <span style="color: #fff; font-weight: 500;">{{ faculty.created_at.strftime('%d %b %Y') }}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+                    <span style="color: var(--text-muted);">Latest Activity</span>
+                    <span style="color: var(--primary-color); font-weight: 500;">Online</span>
+                </div>
+            </div>
+
+            <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+                {% if faculty.status == 'active' %}
+                <a href="{{ url_for('admin.toggle_user_status', id=faculty.id) }}"
+                    class="btn btn-outline btn-status-danger" style="flex: 1;">
+                    <i class="fas fa-user-slash"></i> Blacklist
+                </a>
+                {% else %}
+                <a href="{{ url_for('admin.toggle_user_status', id=faculty.id) }}"
+                    class="btn btn-primary btn-status-success" style="flex: 1;">
+                    <i class="fas fa-user-check"></i> Activate
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 5rem;">
+        <i class="fas fa-users-slash" style="font-size: 4rem; opacity: 0.1; margin-bottom: 2rem;"></i>
+        <h3 style="color: var(--text-muted);">No faculty accounts found.</h3>
+    </div>
+    {% endfor %}
+</div>
+
+<style>
+    .faculty-card {
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 24px;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .faculty-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        border-color: rgba(0, 210, 255, 0.2);
+    }
+
+    .btn-status-danger {
+        border-color: rgba(239, 68, 68, 0.3);
+        color: #ef4444;
+    }
+
+    .btn-status-danger:hover {
+        background: rgba(239, 68, 68, 0.1);
+        border-color: #ef4444;
+    }
+
+    .btn-status-success {
+        background: var(--gradient);
+        border: none;
+    }
+</style>
+{% endblock %}

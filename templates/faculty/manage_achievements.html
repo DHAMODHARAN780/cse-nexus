@@ -77,8 +77,10 @@
             <div
                 style="display: flex; align-items: center; gap: 1.5rem; background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: 16px; border: 1px solid var(--border);">
                 {% if achievement.image_url %}
+                {% set img_url = url_for('static', filename=achievement.image_url.replace('static/', '')) if 'http' not
+                in achievement.image_url else achievement.image_url %}
                 <div
-                    style="width: 100px; height: 100px; border-radius: 12px; background-image: url('{{ achievement.image_url }}'); background-size: cover; background-position: center; flex-shrink: 0;">
+                    style="width: 100px; height: 100px; border-radius: 12px; background-image: url('{{ img_url }}'); background-size: cover; background-position: center; flex-shrink: 0;">
                 </div>
                 {% else %}
                 <div

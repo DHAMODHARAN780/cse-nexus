@@ -13,7 +13,8 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.Text)
-    role = db.Column(db.String(20), nullable=False) # 'student', 'admin'
+    role = db.Column(db.String(20), nullable=False) # 'student', 'admin', 'main_admin'
+    designation = db.Column(db.String(100), nullable=True) # 'HOD', 'Principal', etc.
     
     # Student specific
     reg_no = db.Column(db.String(30), unique=True, nullable=True)
@@ -35,6 +36,9 @@ class User(UserMixin, db.Model):
 
     def is_admin(self):
         return self.role == 'admin'
+
+    def is_main_admin(self):
+        return self.role == 'main_admin'
 
     def get_reset_token(self):
         from itsdangerous import URLSafeTimedSerializer as Serializer

@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="margin-bottom: 3rem;">
+    <h1
+        style="background: var(--gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-size: 2.5rem;">
+        Main Admin Dashboard</h1>
+    <p style="color: var(--text-muted);">Centralized monitoring for all users in the CSE Nexus ecosystem.</p>
+</div>
+
+<div class="grid"
+    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-bottom: 4rem;">
+    <!-- Faculty Stats -->
+    <div class="card glass-card" style="text-align: center; padding: 3rem;">
+        <i class="fas fa-chalkboard-teacher"
+            style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1.5rem;"></i>
+        <h2 style="font-size: 3rem; margin: 0;">{{ faculty_count }}</h2>
+        <p style="color: var(--text-muted); font-weight: 500; letter-spacing: 1px; text-transform: uppercase;">Total
+            Faculty</p>
+        <a href="{{ url_for('admin.monitor_faculties') }}" class="btn btn-primary"
+            style="margin-top: 2rem; width: 100%;">Monitor Faculties</a>
+    </div>
+
+    <!-- Student Stats -->
+    <div class="card glass-card" style="text-align: center; padding: 3rem;">
+        <i class="fas fa-user-graduate" style="font-size: 3rem; color: #a855f7; margin-bottom: 1.5rem;"></i>
+        <h2 style="font-size: 3rem; margin: 0;">{{ student_count }}</h2>
+        <p style="color: var(--text-muted); font-weight: 500; letter-spacing: 1px; text-transform: uppercase;">Total
+            Students</p>
+        <a href="{{ url_for('admin.monitor_students') }}" class="btn btn-outline"
+            style="margin-top: 2rem; width: 100%; border-color: #a855f7; color: #a855f7;">Monitor Students</a>
+    </div>
+
+    <!-- System Settings -->
+    <div class="card glass-card"
+        style="text-align: center; padding: 3rem; border: 1px solid rgba(var(--primary-rgb), 0.3);">
+        <i class="fas fa-cog" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1.5rem;"></i>
+        <h2 style="font-size: 3rem; margin: 0;"><i class="fas fa-shield-alt"></i></h2>
+        <p style="color: var(--text-muted); font-weight: 500; letter-spacing: 1px; text-transform: uppercase;">Security
+            Config</p>
+        <a href="{{ url_for('admin.settings') }}" class="btn btn-primary" style="margin-top: 2rem; width: 100%;">Master
+            Settings</a>
+    </div>
+</div>
+
+<div class="card glass-card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h3>Recent Login Activity</h3>
+        <span class="badge" style="background: rgba(0, 210, 255, 0.1); color: var(--primary-color);">Real-time
+            Tracking</span>
+    </div>
+
+    <div style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; text-align: left;">
+            <thead>
+                <tr style="border-bottom: 1px solid var(--border);">
+                    <th style="padding: 1rem; color: var(--text-muted);">User</th>
+                    <th style="padding: 1rem; color: var(--text-muted);">Role</th>
+                    <th style="padding: 1rem; color: var(--text-muted);">IP Address</th>
+                    <th style="padding: 1rem; color: var(--text-muted);">Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in recent_logins %}
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05); transition: background 0.3s;"
+                    onmouseover="this.style.background='rgba(255,255,255,0.02)'"
+                    onmouseout="this.style.background='transparent'">
+                    <td style="padding: 1rem;">
+                        <div style="font-weight: 600;">{{ log.user.name }}</div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">{{ log.user.email }}</div>
+                    </td>
+                    <td style="padding: 1rem;">
+                        <span class="badge badge-{{ 'admin' if log.user.role == 'admin' else 'info' }}"
+                            style="font-size: 0.7rem;">{{ log.user.role|capitalize }}</span>
+                    </td>
+                    <td style="padding: 1rem; font-family: monospace; font-size: 0.9rem; color: var(--text-muted);">{{
+                        log.ip_address or '0.0.0.0' }}</td>
+                    <td style="padding: 1rem; font-size: 0.9rem; color: var(--primary-color);">{{
+                        log.login_time.strftime('%H:%M, %d %b') }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4" style="padding: 3rem; text-align: center; color: var(--text-muted);">No login
+                        activity recorded.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .glass-card {
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 24px;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .glass-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+</style>
+{% endblock %}

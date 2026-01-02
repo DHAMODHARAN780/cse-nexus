@@ -23,7 +23,12 @@
             NEXUS</a>
         <div class="nav-links">
             {% if current_user.is_authenticated %}
-            {% if current_user.role == 'admin' %}
+            {% if current_user.role == 'main_admin' %}
+            <a href="{{ url_for('admin.dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('admin.monitor_faculties') }}">Faculties</a>
+            <a href="{{ url_for('admin.monitor_students') }}">Students</a>
+            <a href="{{ url_for('admin.settings') }}">Settings</a>
+            {% elif current_user.role == 'admin' %}
             <a href="{{ url_for('faculty.dashboard') }}">Dashboard</a>
             <a href="{{ url_for('faculty.upload') }}">Upload</a>
             <a href="{{ url_for('faculty.settings') }}">Settings</a>

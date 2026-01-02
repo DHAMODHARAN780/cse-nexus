@@ -93,8 +93,8 @@ def upload():
             save_path = os.path.join(current_app.config['UPLOAD_FOLDER'], subdir, filename)
             file.save(save_path)
             
-            # DB entry
-            rel_path = f'static/uploads/{subdir}/{filename}' # Relative path for serving
+            # DB entry - store path relative to static/
+            rel_path = f'uploads/{subdir}/{filename}' 
             new_content = Content(
                 title=title,
                 type=ctype,
@@ -148,7 +148,7 @@ def announcements():
             filename = secure_filename(file.filename)
             save_path = os.path.join(current_app.config['UPLOAD_FOLDER'], 'images', filename)
             file.save(save_path)
-            rel_path = f'static/uploads/images/{filename}'
+            rel_path = f'uploads/images/{filename}'
             
         announce = Announcement(title=title, text=text, type=atype, posted_by=current_user.id, file_path=rel_path)
         db.session.add(announce)
@@ -182,7 +182,7 @@ def manage_achievements():
             filename = secure_filename(file.filename)
             save_path = os.path.join(current_app.config['UPLOAD_FOLDER'], 'images', filename)
             file.save(save_path)
-            file_rel_path = f'static/uploads/images/{filename}'
+            file_rel_path = f'uploads/images/{filename}'
         
         achievement = Achievement(
             title=title, 
@@ -223,15 +223,17 @@ def edit_achievement(id):
             # Cleanup old file if it exists in local storage
             if achievement.file_path:
                 try:
-                    if os.path.exists(achievement.file_path):
-                        os.remove(achievement.file_path)
+                    # Construct full path for deletion
+                    full_old_path = os.path.join(current_app.config['UPLOAD_FOLDER'], achievement.file_path.replace('uploads/', ''))
+                    if os.path.exists(full_old_path):
+                        os.remove(full_old_path)
                 except Exception as e:
                     print(f"Error removing old achievement file: {e}")
             
             filename = secure_filename(file.filename)
             save_path = os.path.join(current_app.config['UPLOAD_FOLDER'], 'images', filename)
             file.save(save_path)
-            achievement.file_path = f'static/uploads/images/{filename}'
+            achievement.file_path = f'uploads/images/{filename}'
             achievement.image_url = achievement.file_path # Update image preview link
             
         db.session.commit()
@@ -255,7 +257,7 @@ def manage_timetable():
             filename = secure_filename(file.filename)
             save_path = os.path.join(current_app.config['UPLOAD_FOLDER'], 'timetables', filename)
             file.save(save_path)
-            rel_path = f'static/uploads/timetables/{filename}'
+            rel_path = f'uploads/timetables/{filename}'
             
             timetable = Timetable(
                 title=title,
@@ -423,16 +425,9 @@ def remove_student(id):
         flash(f'Student {name} has been permanently removed.', 'success')
     return redirect(url_for('faculty.manage_students'))
 
-@faculty_bp.route('/settings', methods=['GET', 'POST'])
+@faculty_bp.route('/settings')
 @login_required
 @admin_required
 def settings():
-    if request.method == 'POST':
-        access_code = request.form.get('access_code')
-        if access_code:
-            SystemSetting.set_setting('faculty_access_code', access_code, 'Secret code required for faculty registration')
-            flash('Faculty Access Code updated successfully!', 'success')
-        return redirect(url_for('faculty.settings'))
-    
     current_code = SystemSetting.get_setting('faculty_access_code', default=current_app.config.get('FACULTY_ACCESS_CODE'))
-    return render_template('faculty/settings.html', current_code=current_code)
+    return render_template('faculty/settings.html', current_code=current_code, read_only=True)

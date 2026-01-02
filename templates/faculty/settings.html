@@ -37,6 +37,21 @@
 
     <!-- Configuration Form -->
     <div class="card" style="padding: 2.5rem; border-radius: 24px;">
+        {% if read_only %}
+        <div style="text-align: center; padding: 2rem;">
+            <i class="fas fa-lock"
+                style="font-size: 3rem; color: var(--text-muted); margin-bottom: 1.5rem; opacity: 0.3;"></i>
+            <h3 style="color: #fff;">Restricted Access</h3>
+            <p style="color: var(--text-muted); line-height: 1.6;">
+                System security settings can only be modified by the **Main Admin**.
+                If you need to change the faculty access code, please contact the department head.
+            </p>
+            <div
+                style="margin-top: 2rem; padding: 1rem; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 12px; color: #ef4444; font-size: 0.85rem;">
+                <i class="fas fa-exclamation-triangle"></i> Modification Privileges Revoked
+            </div>
+        </div>
+        {% else %}
         <form method="POST">
             <h3 style="margin-bottom: 1.5rem;">Update Access Credentials</h3>
 
@@ -61,6 +76,7 @@
                 <i class="fas fa-save" style="margin-right: 0.5rem;"></i> SAVE CHANGES
             </button>
         </form>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

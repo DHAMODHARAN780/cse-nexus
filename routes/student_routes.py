@@ -17,6 +17,8 @@ student_bp = Blueprint('student', __name__, url_prefix='/student')
 @student_bp.route('/dashboard')
 @login_required
 def dashboard():
+    if current_user.role == 'main_admin':
+        return redirect(url_for('admin.dashboard'))
     if current_user.role == 'admin':
         return redirect(url_for('faculty.dashboard'))
         
@@ -28,10 +30,12 @@ def dashboard():
     achievements = Achievement.query.order_by(Achievement.date.desc()).limit(3).all()
     
     # Fetch all relevant timetables for student's year/semester
-    timetables = Timetable.query.filter_by(
-        year=int(current_user.year), 
-        semester=int(current_user.semester)
-    ).order_by(Timetable.date_posted.desc()).all()
+    timetables = []
+    if current_user.year and current_user.semester:
+        timetables = Timetable.query.filter_by(
+            year=int(current_user.year), 
+            semester=int(current_user.semester)
+        ).order_by(Timetable.date_posted.desc()).all()
     
     return render_template('student/dashboard.html', 
                            subjects=subjects, 
