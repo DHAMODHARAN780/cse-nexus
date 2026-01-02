@@ -9,24 +9,24 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 
 class User(UserMixin, db.Model):
+    __tablename__ = "user"
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    password_hash = db.Column(db.Text)
-    role = db.Column(db.String(20), nullable=False) # 'student', 'admin', 'main_admin'
-    designation = db.Column(db.String(50), nullable=True) # 'HOD', 'Principal', etc.
-    
-    # Student specific
+    password_hash = db.Column(db.Text, nullable=False)
+    role = db.Column(db.String(20), nullable=False)
+    designation = db.Column(db.String(50), nullable=True)
+
     reg_no = db.Column(db.String(30), unique=True, nullable=True)
-    year = db.Column(db.Integer, nullable=True)     # 1, 2, 3, 4
-    semester = db.Column(db.Integer, nullable=True) # 1-8
-    status = db.Column(db.String(20), default='active') # 'active', 'blacklisted'
-    
+    year = db.Column(db.Integer, nullable=True)
+    semester = db.Column(db.Integer, nullable=True)
+    status = db.Column(db.String(20), default="active")
+
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    
-    # OTP for password reset
-    otp_code = db.Column(db.String(6), nullable=True)
-    otp_expiry = db.Column(db.DateTime, nullable=True)
+
+    otp_code = db.Column(db.String(6))
+    otp_expiry = db.Column(db.DateTime)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
