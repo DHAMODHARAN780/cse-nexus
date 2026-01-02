@@ -9,7 +9,7 @@ class Config:
     if database_url and database_url.startswith("postgres://"):
         database_url = database_url.replace("postgres://", "postgresql://", 1)
     
-    SQLALCHEMY_DATABASE_URI = database_url or 'sqlite:///database.db'
+    SQLALCHEMY_DATABASE_URI = database_url or 'sqlite:///database.db?check_same_thread=False'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     UPLOAD_FOLDER = os.path.join(os.getcwd(), 'static', 'uploads')
     MAX_CONTENT_LENGTH = 100 * 1024 * 1024  # 100MB max upload size
