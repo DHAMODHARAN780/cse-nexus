@@ -75,7 +75,6 @@ def fix_subject_images():
         return f"Error: {str(e)}"
 
 @common_bp.route('/achievements')
-@login_required
 def achievements():
     achievements = Achievement.query.order_by(Achievement.date.desc()).all()
     return render_template('common/achievements.html', achievements=achievements)
